@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/circle_release"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.hxg.u1.xiaoyuan.activity.CricleReleaseActivity">
+
+    <com.hxg.u1.xiaoyuan.widgets.TitleBar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/circle_release_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/white"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/cirle_release_et"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:gravity="top|left"
+                android:hint="这一刻想说些什么...."/>
+            <!-- 网格显示图片 行列间距5dp 每列宽度90dp -->
+            <GridView
+                android:id="@+id/cirlr_release_gv"
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:layout_margin="10dp"
+                android:horizontalSpacing="2dp"
+                android:verticalSpacing="2dp"
+                android:numColumns="3"
+                android:columnWidth="90dp"
+                android:stretchMode="columnWidth"
+                android:gravity="center" >
+            </GridView>
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

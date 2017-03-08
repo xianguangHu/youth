@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#ffffff</color>
+    <!-- 新手引导界面 -->
+    <color name="login_unable_bg">#ffcdced0</color>
+    <color name="Wathet">#1497ec</color>//浅蓝色
+    <color name="Navy_Blue">#0b55bd</color>//浅蓝色点击后
+    <color name="gray_small">#dddedd</color>//浅灰
+    <color name="black">#000000</color>
+    <color name="gray_many">#f4f3f4</color>//深灰
+    <color name="title_bg">#373B3E</color>//校园圈背景
+    <color name="blue">#0000ff</color><!--蓝色 -->
+    <color name="color_232323">#232323</color>
+    <color name="color_8290AF">#8290AF</color>
+    <color name="color_aeaeae">#aeaeae</color>
+    <color name="im_font_color_text_hint">#abb1b6</color>
+    <color name="im_line_color">#dadada</color>
+    <color name="transparent">#00000000</color>
+    <color name="default_clickable_color">#cccccc</color>
+    <color name="name_selector_color">#cccccc</color>
+    <!--========================-->
+    <color name="praise_item_default">#333333</color>
+    <color name="praise_item_selector_default">#cccccc</color>
+    <color name="praise_item">#8290AF</color>
+    <color name="im_social_dig_name_bg">#DDDDDD</color>
+    <color name="basic_color_primary">#373b3e</color>
+
+</resources>
