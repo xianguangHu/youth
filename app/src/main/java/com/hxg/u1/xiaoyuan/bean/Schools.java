@@ -9,4 +9,7 @@ import com.avos.avoscloud.AVObject;
 public class Schools extends AVObject {
     public Schools() {
     }
+    public String  getSchoolName(){
+        return super.getString("schoolName");
+    }
 }

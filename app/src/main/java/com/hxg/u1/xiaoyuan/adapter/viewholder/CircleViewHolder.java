@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hxg.u1.xiaoyuan.R;
+import com.hxg.u1.xiaoyuan.widgets.CommentListView;
 import com.hxg.u1.xiaoyuan.widgets.ExpandTextView;
 import com.hxg.u1.xiaoyuan.widgets.SnsPopupWindow;
 
@@ -30,6 +31,7 @@ public abstract class CircleViewHolder extends RecyclerView.ViewHolder {
     public TextView mLikeTv;
     public ImageView mCommentIv;
     public TextView mCommentTv;
+    public CommentListView mCommentList;
 
     public CircleViewHolder(View itemView, int viewType) {
         super(itemView);
@@ -47,7 +49,8 @@ public abstract class CircleViewHolder extends RecyclerView.ViewHolder {
         mLikeIv = (ImageView) itemView.findViewById(R.id.circle_like_iv);
         mLikeTv = (TextView) itemView.findViewById(R.id.circle_like_tv);
         mCommentIv = (ImageView) itemView.findViewById(R.id.circle_comment_iv);
-        mCommentTv = (TextView) itemView.findViewById(R.id.commentTv);
+        mCommentTv = (TextView) itemView.findViewById(R.id.circle_comment_tv);
+        mCommentList = (CommentListView) itemView.findViewById(R.id.commentList);
     }
     public abstract void initSubView(int viewType, ViewStub viewStub);
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
+import com.hxg.u1.xiaoyuan.bean.Circles;
 import com.hxg.u1.xiaoyuan.bean.Comment;
 import com.hxg.u1.xiaoyuan.bean.Schools;
 import com.hxg.u1.xiaoyuan.model.Model;
@@ -21,6 +22,7 @@ public class MyApplication extends Application {
         super.onCreate();
         LeakCanary.install(this);//oom检测
         mContext = getApplicationContext();
+        AVObject.registerSubclass(Circles.class);
         AVObject.registerSubclass(Schools.class);
         AVObject.registerSubclass(Comment.class);
         // 初始化参数依次为 this, AppId, AppKey

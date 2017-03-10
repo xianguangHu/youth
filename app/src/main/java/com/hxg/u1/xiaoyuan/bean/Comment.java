@@ -1,5 +1,7 @@
 package com.hxg.u1.xiaoyuan.bean;
 
+import android.util.Log;
+
 import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
@@ -21,5 +23,14 @@ public class Comment extends AVObject{
     }
     public AVUser getCreator(){
         return getAVUser("creator");
+    }
+    public void fetchCreator() {
+        AVUser usr = getAVUser("creator");
+        if (null == usr.getCreatedAt()) {
+            try {
+                usr.fetchInBackground(null);
+            } catch (Exception ex) {
+            }
+        }
     }
 }

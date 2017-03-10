@@ -93,16 +93,21 @@ public class StatusService {
         //获取到当前登录的user
         AVUser user = AVUser.getCurrentUser();
         //服务器获取数据
-//        AVStatusQuery q=AVStatus.inboxQuery(user,"public");
-//        q.setLimit(limit);
-//        q.orderByDescending(Constant.CREATED_AT);
-//        List<AVStatus> avStatuses= q.find();
         AVQuery<AVObject> query = new AVQuery<>("Circle");
         query.setLimit(limit);
         query.include("userId");
+        query.include("comments");
         query.orderByDescending("createdAt");
         query.whereEqualTo("schoolId", user.getString("schoolId"));
         List<AVObject> avCircle = query.find();
+        for (AVObject tmp:avCircle){
+            List<Comment> comments=tmp.getList("comments");
+            if (null != comments) {
+                for (Comment cmt: comments) {
+                    cmt.fetchCreator();
+                }
+            }
+        }
         return fetchDetailsAndGetStatuses(avCircle);
     }
 
@@ -186,8 +191,9 @@ public class StatusService {
                 if (null != e) {
                     return;
                 } else {
-                    AVObject circle=AVObject.createWithoutData("Circle",circleId);
-                    circle.addUnique("comments",comment);
+                    AVObject circles= AVObject.createWithoutData("Circle",circleId);
+                    circles.addUnique("comments",comment);
+                    circles.saveInBackground();
                 }
             }
         });

@@ -98,11 +98,13 @@
                     android:layout_weight="1" />
 
             </LinearLayout>
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/gray_many"
                 android:orientation="horizontal"
                 >
                 <ImageView
@@ -129,6 +131,19 @@
                     android:text="0"
                     android:layout_marginLeft="5dp"/>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray_many"
+                >
+                <com.hxg.u1.xiaoyuan.widgets.CommentListView
+                    android:id="@+id/commentList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:item_color="@color/praise_item"/>
+            </LinearLayout>
+        </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

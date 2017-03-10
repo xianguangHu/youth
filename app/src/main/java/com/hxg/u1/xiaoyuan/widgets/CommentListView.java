@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,7 @@ import android.widget.Toast;
 
 import com.hxg.u1.xiaoyuan.MyApplication;
 import com.hxg.u1.xiaoyuan.R;
-import com.hxg.u1.xiaoyuan.bean.CommentItem;
+import com.hxg.u1.xiaoyuan.bean.Comment;
 import com.hxg.u1.xiaoyuan.spannable.CircleMovementMethod;
 import com.hxg.u1.xiaoyuan.spannable.SpannableClickable;
 import com.hxg.u1.xiaoyuan.utils.UrlUtils;
@@ -34,7 +33,7 @@ public class CommentListView extends LinearLayout {
     private int itemSelectorColor;
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
-    private List<CommentItem> mDatas;
+    private List<Comment> mDatas;
     private LayoutInflater layoutInflater ;
 
     public OnItemClickListener getOnItemClickListener() {
@@ -53,15 +52,15 @@ public class CommentListView extends LinearLayout {
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
-    public void setDatas(List<CommentItem> datas){
+    public void setDatas(List<Comment> datas){
         if(datas == null ){
-            datas = new ArrayList<CommentItem>();
+            datas = new ArrayList<Comment>();
         }
         mDatas = datas;
         notifyDataSetChanged();
     }
 
-    public List<CommentItem> getDatas(){
+    public List<Comment> getDatas(){
         return mDatas;
     }
 
@@ -119,25 +118,26 @@ public class CommentListView extends LinearLayout {
         TextView commentTv = (TextView) convertView.findViewById(R.id.commentTv);
         final CircleMovementMethod circleMovementMethod = new CircleMovementMethod(itemSelectorColor, itemSelectorColor);
 
-        final CommentItem bean = mDatas.get(position);
-        String name = bean.getUser().getName();
-        String id = bean.getId();
+//        final CommentItem bean = mDatas.get(position);
+        Comment comment=mDatas.get(position);
+//        String name = bean.getUser().getName();
+        String name=comment.getCreator().getUsername();
+//        String id = bean.getId();
         String toReplyName = "";
-        if (bean.getToReplyUser() != null) {
-            toReplyName = bean.getToReplyUser().getName();
-        }
+//        if (bean.getToReplyUser() != null) {
+//            toReplyName = bean.getToReplyUser().getName();
+//        }
 
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        builder.append(setClickableSpan(name, bean.getUser().getId()));
-
-        if (!TextUtils.isEmpty(toReplyName)) {
-
-            builder.append(" 回复 ");
-            builder.append(setClickableSpan(toReplyName, bean.getToReplyUser().getId()));
-        }
+        builder.append(setClickableSpan(name, comment.getCreator().getObjectId()));
+//        if (!TextUtils.isEmpty(toReplyName)) {
+//
+//            builder.append(" 回复 ");
+//            builder.append(setClickableSpan(toReplyName, bean.getToReplyUser().getId()));
+//        }
         builder.append(": ");
         //转换表情字符
-        String contentBodyStr = bean.getContent();
+        String contentBodyStr =comment.getContent();
         builder.append(UrlUtils.formatUrlString(contentBodyStr));
         commentTv.setText(builder);
 

@@ -13,11 +13,13 @@ import com.hxg.u1.xiaoyuan.activity.ImagePagerActivity;
 import com.hxg.u1.xiaoyuan.adapter.viewholder.CircleViewHolder;
 import com.hxg.u1.xiaoyuan.adapter.viewholder.ImageViewHoder;
 import com.hxg.u1.xiaoyuan.bean.Circle;
+import com.hxg.u1.xiaoyuan.bean.Comment;
 import com.hxg.u1.xiaoyuan.bean.PhotoInfo;
 import com.hxg.u1.xiaoyuan.model.CirclePresenter;
 import com.hxg.u1.xiaoyuan.utils.MainUtil;
 import com.hxg.u1.xiaoyuan.utils.StatusNetAsyncTask;
 import com.hxg.u1.xiaoyuan.utils.UrlUtils;
+import com.hxg.u1.xiaoyuan.widgets.CommentListView;
 import com.hxg.u1.xiaoyuan.widgets.MultiImageView;
 
 import java.text.SimpleDateFormat;
@@ -148,6 +150,23 @@ public class CircleAdapter extends BaseRecycleViewAdapter{
                     presenter.showEditTextBody(status.getInnerStatus().getObjectId());
                 }
             });
+
+
+            //处理评论和点赞
+            final List<Comment> comments=status.getInnerStatus().getList("comments");
+            if (comments!=null&&comments.size()>0){
+                //当评论不为空的时候 处理评论
+                holder.mCommentTv.setText(comments.size()+"");
+
+                holder.mCommentList.setOnItemClickListener(new CommentListView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+
+                    }
+                });
+                holder.mCommentList.setDatas(comments);
+                holder.mCommentList.setVisibility(View.VISIBLE);
+            }
         }
     }
 

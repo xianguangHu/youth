@@ -1,5 +1,7 @@
 package com.hxg.u1.xiaoyuan.bean;
 
+import com.avos.avoscloud.AVUser;
+
 import java.io.Serializable;
 
 /**
@@ -13,7 +15,7 @@ import java.io.Serializable;
 public class CommentItem implements Serializable {
 
 	private String id;
-	private User user;
+	private AVUser user;
 	private User toReplyUser;
 	private String content;
 	public String getId() {
@@ -28,10 +30,10 @@ public class CommentItem implements Serializable {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public User getUser() {
+	public AVUser getUser() {
 		return user;
 	}
-	public void setUser(User user) {
+	public void setUser(AVUser user) {
 		this.user = user;
 	}
 	public User getToReplyUser() {
