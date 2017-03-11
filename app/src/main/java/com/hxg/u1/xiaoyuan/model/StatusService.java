@@ -7,11 +7,14 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVRelation;
 import com.avos.avoscloud.AVStatus;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.CloudQueryCallback;
+import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.hxg.u1.xiaoyuan.bean.Circle;
+import com.hxg.u1.xiaoyuan.bean.Circles;
 import com.hxg.u1.xiaoyuan.bean.Comment;
 import com.hxg.u1.xiaoyuan.bean.PhotoInfo;
 import com.hxg.u1.xiaoyuan.bean.Schools;
@@ -97,6 +100,7 @@ public class StatusService {
         query.setLimit(limit);
         query.include("userId");
         query.include("comments");
+        query.include("likes");
         query.orderByDescending("createdAt");
         query.whereEqualTo("schoolId", user.getString("schoolId"));
         List<AVObject> avCircle = query.find();
@@ -123,10 +127,20 @@ public class StatusService {
         List<AVObject> avObjects = AVObject.fetchAll(objects);
         List<Circle> statuses = new ArrayList<>();
         for (int i = 0; i < avCircle.size(); i++) {
-            AVObject avStauts = avCircle.get(i);
+            final Circles avStauts = (Circles) avCircle.get(i);
             AVObject avObject = avObjects.get(i);
+            AVRelation likers=avStauts.getLiker();
+            likers.getQuery().findInBackground(new FindCallback() {
+                @Override
+                public void done(List list, AVException e) {
+                    if (e == null) {
+                        // results have all the Posts the current user liked.
+                        avStauts.setLikedUsers(list);
+                    }
+                }
+            });
             final Circle circle = new Circle();
-            circle.setInnerStatus(avStauts);
+            circle.setCircles(avStauts);
             circle.setDatail(avObject);
             statuses.add(circle);
             //根据Statusid查询到Status的图片文件文件
@@ -181,7 +195,7 @@ public class StatusService {
     }
 
     //保存评论
-    public static void addComment(String value, final String circleId) {
+    public static Comment addComment(String value, final String circleId) {
         final Comment comment = new Comment();
         comment.setContent(value);
         comment.setCreator(AVUser.getCurrentUser());
@@ -197,5 +211,14 @@ public class StatusService {
                 }
             }
         });
+        return comment;
+    }
+
+    /**
+     *
+     * 添加赞
+     */
+    public static void addLike(Circles circles){
+        circles.addLiker(AVUser.getCurrentUser());
     }
 }

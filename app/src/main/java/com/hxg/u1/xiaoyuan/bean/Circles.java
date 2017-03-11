@@ -2,8 +2,10 @@ package com.hxg.u1.xiaoyuan.bean;
 
 import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVRelation;
 import com.avos.avoscloud.AVUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,5 +47,42 @@ public class Circles extends AVObject{
     }
     public Schools getSchools(){
         return (Schools) super.get("schoolId");
+    }
+
+    /**
+     * Like，我们使用 AVRelation 来链接 Image 和 AVUser，给 Image 类增加如下属性和方法：
+     */
+
+    public AVRelation getLiker() {
+        AVRelation relation = getRelation("likes");
+        return relation;
+    }
+    public void removeLiker(AVUser user) {
+        AVRelation users = getLiker();
+        users.remove(user);
+        this.saveInBackground();
+    }
+    public void addLiker(AVUser user) {
+        AVRelation users = getLiker();
+        users.add(user);
+        this.saveInBackground();
+    }
+
+    /**
+     * 为了展示方便，我们给 Image 类增加一个非持久化的属性：
+     */
+    List likedUsers = new ArrayList();
+    public void setLikedUsers(List usr) {
+        if (null == usr) return;
+        this.likedUsers = usr;
+    }
+    public List getLikedUsers() {
+        return this.likedUsers;
+    }
+    public int getLikerCount() {
+        return this.likedUsers.size();
+    }
+    public void addLikedUsers(AVUser user){
+        likedUsers.add(user);
     }
 }

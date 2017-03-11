@@ -16,11 +16,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVUser;
 import com.hxg.u1.xiaoyuan.R;
 import com.hxg.u1.xiaoyuan.adapter.CircleAdapter;
 import com.hxg.u1.xiaoyuan.bean.Circle;
+import com.hxg.u1.xiaoyuan.bean.Circles;
+import com.hxg.u1.xiaoyuan.bean.Comment;
 import com.hxg.u1.xiaoyuan.contract.CircleContract;
 import com.hxg.u1.xiaoyuan.model.CirclePresenter;
+import com.hxg.u1.xiaoyuan.model.StatusService;
 import com.hxg.u1.xiaoyuan.utils.CommentUtil;
 import com.hxg.u1.xiaoyuan.utils.MainUtil;
 import com.hxg.u1.xiaoyuan.widgets.DivItemDecoration;
@@ -53,6 +57,7 @@ public class CircleActivity extends Activity implements CircleContract.View {
     private CircleAdapter mCircleAdapter;
     private SwipeRefreshLayout.OnRefreshListener mRefreshListener;
     private String mCircleId;
+    private int mCirclePostition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +86,7 @@ public class CircleActivity extends Activity implements CircleContract.View {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(mEditTextBodyLl.getVisibility()==View.VISIBLE){
-                    updateEditTextBodyVisible(View.GONE,null);
+                    updateEditTextBodyVisible(View.GONE,null,0);
                     return true;
                 }
                 return false;
@@ -110,8 +115,9 @@ public class CircleActivity extends Activity implements CircleContract.View {
                         MainUtil.ToastUtil(CircleActivity.this,"评论内容不能为空...");
                         return;
                     }
-                    presenter.addComment(content,mCircleId);
+                    presenter.addComment(content,mCircleId,mCirclePostition);
                 }
+                updateEditTextBodyVisible(View.GONE, null,0);
             }
         });
     }
@@ -152,8 +158,9 @@ public class CircleActivity extends Activity implements CircleContract.View {
     }
 
     @Override
-    public void updateEditTextBodyVisible(int visibility,String circleId) {
+    public void updateEditTextBodyVisible(int visibility,String circleId,int circlePostition) {
         this.mCircleId=circleId;
+        this.mCirclePostition=circlePostition;
         mEditTextBodyLl.setVisibility(visibility);
         if(View.VISIBLE==visibility){
             mCircleEt.requestFocus();
@@ -163,6 +170,26 @@ public class CircleActivity extends Activity implements CircleContract.View {
             //隐藏键盘
             CommentUtil.hideSoftInput(mCircleEt.getContext(),mCircleEt);
         }
+    }
+    //更新评论
+    @Override
+    public void update2AddComment(int circlePosition, Comment comment) {
+        if (comment!=null){
+            Circle circle= (Circle) mCircleAdapter.getDatas().get(circlePosition);
+            circle.getCircles().setComments(comment);
+            mCircleAdapter.notifyDataSetChanged();
+        }
+        //清空评论
+        mCircleEt.setText("");
+    }
+//更新点赞ui
+    @Override
+    public void updata2AddLike(int circlePosition) {
+        Circle circle= (Circle) mCircleAdapter.getDatas().get(circlePosition);
+        Circles circles=circle.getCircles();
+        StatusService.addLike(circles);
+        circles.addLikedUsers(AVUser.getCurrentUser());
+        mCircleAdapter.notifyDataSetChanged();
     }
 
     @Override

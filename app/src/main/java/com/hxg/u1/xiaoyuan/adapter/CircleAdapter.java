@@ -80,10 +80,10 @@ public class CircleAdapter extends BaseRecycleViewAdapter{
             final int circlePostition=position-1;
             final CircleViewHolder holder= (CircleViewHolder) viewholder;
             final Circle status= (Circle) datas.get(position-1);
-            AVUser name= (AVUser) status.getInnerStatus().get("userId");
+            AVUser name=status.getCircles().getUserId();
 //            String name=status.getInnerStatus().getString("1");
-            String statusTime=new SimpleDateFormat("yyyy-MM-dd").format(status.getInnerStatus().getCreatedAt());
-            final String content=status.getInnerStatus().getString("message");
+            String statusTime=new SimpleDateFormat("yyyy-MM-dd").format(status.getCircles().getCreatedAt());
+            final String content=status.getCircles().getMessage();
 //            final String content=status.getInnerStatus().getString("1");
             holder.mNameTv.setText(name.getUsername());
             holder.mTimeTv.setText(statusTime);
@@ -91,7 +91,7 @@ public class CircleAdapter extends BaseRecycleViewAdapter{
                 holder.mContentTv.setText(UrlUtils.formatUrlString(content));
             }
             holder.mContentTv.setVisibility(TextUtils.isEmpty(content)?View.GONE:View.VISIBLE);
-            if (AVUser.getCurrentUser().getObjectId().equals(status.getInnerStatus().getObjectId())){
+            if (AVUser.getCurrentUser().getObjectId().equals(status.getCircles().getObjectId())){
                 //说明此条信息是自己发的 可以删除 显示删除
                 holder.mDeleteBtn.setVisibility(View.VISIBLE);
             }else {
@@ -147,13 +147,13 @@ public class CircleAdapter extends BaseRecycleViewAdapter{
             holder.mCommentIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    presenter.showEditTextBody(status.getInnerStatus().getObjectId());
+                    presenter.showEditTextBody(status.getCircles().getObjectId(),circlePostition);
                 }
             });
 
 
             //处理评论和点赞
-            final List<Comment> comments=status.getInnerStatus().getList("comments");
+            final List<Comment> comments=status.getCircles().getComments();
             if (comments!=null&&comments.size()>0){
                 //当评论不为空的时候 处理评论
                 holder.mCommentTv.setText(comments.size()+"");
@@ -167,6 +167,25 @@ public class CircleAdapter extends BaseRecycleViewAdapter{
                 holder.mCommentList.setDatas(comments);
                 holder.mCommentList.setVisibility(View.VISIBLE);
             }
+
+            //点赞
+            holder.mLikeTv.setText(status.getCircles().getLikerCount()+"");
+            List list=status.getCircles().getLikedUsers();
+          for (int i=0;i<list.size();i++){
+                AVUser user= (AVUser) list.get(i);
+                if (user.getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
+                    //说明我已经点过赞
+                    holder.mLikeIv.setImageResource(R.mipmap.appreciate_fill_light);
+                }
+            }
+            //点击点赞图标
+            holder.mLikeIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    presenter.addLike(circlePostition,status.getCircles().getObjectId());
+                }
+            });
+
         }
     }
 
