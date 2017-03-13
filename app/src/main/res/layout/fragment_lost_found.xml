@@ -1,0 +1,17 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.hxg.u1.xiaoyuan.fragment.base.LostFoundFragment">
+
+    <com.malinskiy.superrecyclerview.SuperRecyclerView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fragment_base_LostFound"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_moreProgress="@layout/view_more_progress"
+        app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
+        app:recyclerClipToPadding="true"
+        app:scrollbarStyle="outsideOverlay"/>
+
+</FrameLayout>

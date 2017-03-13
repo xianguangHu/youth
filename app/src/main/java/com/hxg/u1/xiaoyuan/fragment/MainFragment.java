@@ -1,6 +1,7 @@
 package com.hxg.u1.xiaoyuan.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.avos.avoscloud.AVUser;
 import com.hxg.u1.xiaoyuan.R;
+import com.hxg.u1.xiaoyuan.activity.LostFoundActivity;
 import com.hxg.u1.xiaoyuan.bean.Schools;
 import com.hxg.u1.xiaoyuan.model.UserService;
 import com.hxg.u1.xiaoyuan.utils.StatusNetAsyncTask;
@@ -65,10 +67,12 @@ public class MainFragment extends Fragment {
 
     @OnClick(R.id.fragment_main_lost)
     public void onClick(View view) {
+        Intent intent=new Intent();
         switch (view.getId()){
             case R.id.fragment_main_lost:
-                
+                intent.setClass(getActivity(),LostFoundActivity.class);
                 break;
         }
+        startActivity(intent);
     }
 }
