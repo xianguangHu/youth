@@ -15,6 +15,7 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SignUpCallback;
 import com.hxg.u1.xiaoyuan.R;
+import com.hxg.u1.xiaoyuan.bean.Schools;
 import com.hxg.u1.xiaoyuan.model.Model;
 
 import butterknife.BindView;
@@ -37,8 +38,7 @@ public class CheckActivity extends AppCompatActivity {
     private String mYan;
     private String mPhone;
     private String mPassword;
-    private String mSchoolId;
-
+    private Schools mMySchools;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +47,7 @@ public class CheckActivity extends AppCompatActivity {
         Intent intent = getIntent();
         mPhone = intent.getStringExtra("phone");
         mPassword = intent.getStringExtra("password");
-        mSchoolId = intent.getStringExtra("schoolId");
+        mMySchools= (Schools) intent.getSerializableExtra("schools");
         mCheckSetphone.setText(mPhone);
     }
 
@@ -72,7 +72,7 @@ public class CheckActivity extends AppCompatActivity {
                                     AVUser user=new AVUser();
                                     user.setUsername(mPhone);
                                     user.setPassword(mPassword);
-                                    user.put("schoolId",mSchoolId);
+                                    user.put("schoolId",mMySchools);
                                     user.signUpInBackground(new SignUpCallback() {
                                         @Override
                                         public void done(AVException e) {

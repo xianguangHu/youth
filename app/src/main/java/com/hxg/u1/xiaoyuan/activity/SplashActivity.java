@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.hxg.u1.xiaoyuan.R;
+import com.hxg.u1.xiaoyuan.model.UserService;
 
 public class SplashActivity extends Activity {
     Handler mHandler=new Handler();
@@ -14,6 +15,7 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        initData();
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -31,5 +33,11 @@ public class SplashActivity extends Activity {
                 finish();
             }
         },3000);
+    }
+    //初始化用户数据
+    private void initData() {
+        //初始化用户信息
+//        if (AVUser.getCurrentUser()!=null){
+//        }
     }
 }

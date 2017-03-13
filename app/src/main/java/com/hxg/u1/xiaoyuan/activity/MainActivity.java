@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import com.hxg.u1.xiaoyuan.R;
 import com.hxg.u1.xiaoyuan.fragment.FriendFragment;
-import com.hxg.u1.xiaoyuan.fragment.ScheduleFragment;
 import com.hxg.u1.xiaoyuan.fragment.MainFragment;
 import com.hxg.u1.xiaoyuan.fragment.MyFragment;
+import com.hxg.u1.xiaoyuan.fragment.ScheduleFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

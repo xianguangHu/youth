@@ -62,6 +62,8 @@
         </activity>
         <activity android:name=".activity.GuideActivity"/>
         <activity android:name=".activity.ImagePagerActivity"/>
+        <activity android:name=".activity.LostFoundActivity">
+        </activity>
     </application>
 
 </manifest>

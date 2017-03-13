@@ -13,17 +13,15 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.hxg.u1.xiaoyuan.R;
+import com.hxg.u1.xiaoyuan.bean.Schools;
 import com.hxg.u1.xiaoyuan.model.Model;
 import com.hxg.u1.xiaoyuan.model.StatusService;
-import com.hxg.u1.xiaoyuan.utils.MainUtil;
 import com.hxg.u1.xiaoyuan.utils.StatusNetAsyncTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,10 +46,10 @@ public class RegisterActivity extends Activity implements AdapterView.OnItemSele
     private String mPassword;
     private List<String> dataSchool=new ArrayList<>();
     private ArrayAdapter<String> arr_adapter;
-    private String mSchoolName;
     private Map<String, String> mMap=new HashMap<String, String>();
     private String mSchoolId;
-
+    private List<Schools> mSchoolsList=new ArrayList<>();
+    private Schools mMySchool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,18 +79,16 @@ public class RegisterActivity extends Activity implements AdapterView.OnItemSele
 
             @Override
             protected void doInBack() throws Exception {
-                mMap = StatusService.getschool();
+                mSchoolsList = StatusService.getschool();
             }
 
             @Override
             protected void onPost(Exception e) {
-                Set keySet = mMap.keySet(); // key的set集合
-                Iterator it = keySet.iterator();
-                while(it.hasNext()){
-                    String k = (String) it.next(); // key
-                    String v = mMap.get(k);  //value
-                    dataSchool.add(v);
+                for (Schools schools:mSchoolsList){
+                    String name=schools.getSchoolName();
+                    dataSchool.add(name);
                 }
+
                 initView();
             }
         }.execute();
@@ -107,7 +103,6 @@ public class RegisterActivity extends Activity implements AdapterView.OnItemSele
             case R.id.register_next:
                 mPhone = mRegisterPhone.getText().toString().trim();
                 mPassword = mRegisterPassword.getText().toString().trim();
-                mSchoolId = MainUtil.getKeyByValue(mMap,mSchoolName);
                 Model.getInstance().getGlobalThreadpool().execute(new Runnable() {
                     @Override
                     public void run() {
@@ -124,7 +119,9 @@ public class RegisterActivity extends Activity implements AdapterView.OnItemSele
                         Intent intent = new Intent(RegisterActivity.this, CheckActivity.class);
                         intent.putExtra("phone", mPhone);
                         intent.putExtra("password", mPassword);
-                        intent.putExtra("schoolId", mSchoolId);
+                        Bundle bundle=new Bundle();
+                        bundle.putSerializable("schools",mMySchool);
+                        intent.putExtras(bundle);
                         startActivity(intent);
                     }
                 });
@@ -134,7 +131,12 @@ public class RegisterActivity extends Activity implements AdapterView.OnItemSele
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        mSchoolName = (String) arr_adapter.getItem(position);
+        String schoolName = (String) arr_adapter.getItem(position);
+        for (Schools schools:mSchoolsList){
+            if (schools.getSchoolName().equals(schoolName)){
+                this.mMySchool=schools;
+            }
+        }
     }
 
     @Override

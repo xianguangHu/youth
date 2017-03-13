@@ -24,13 +24,12 @@ import com.hxg.u1.xiaoyuan.utils.Constant;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
  * Created by huxianguang on 2017/2/27.
+ * 事件流service
  */
 
 public class StatusService {
@@ -182,16 +181,16 @@ public class StatusService {
         datail.delete();
     }
 
-    public static Map<String, String> getschool() throws AVException {
+    public static List<Schools> getschool() throws AVException {
         AVQuery<Schools> schoolAVQuery = AVQuery.getQuery(Schools.class);
         List<Schools> schools = schoolAVQuery.find();
-        Map<String, String> map = new HashMap();
-        for (Schools school : schools) {
-            String name = school.getString("schoolName");
-            String id = school.getObjectId();
-            map.put(id, name);
-        }
-        return map;
+//        Map<String, String> map = new HashMap();
+//        for (Schools school : schools) {
+//            String name = school.getString("schoolName");
+//            String id = school.getObjectId();
+//            map.put(id, name);
+//        }
+        return schools;
     }
 
     //保存评论

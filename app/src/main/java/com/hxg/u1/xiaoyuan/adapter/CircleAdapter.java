@@ -172,20 +172,21 @@ public class CircleAdapter extends BaseRecycleViewAdapter{
             holder.mLikeTv.setText(status.getCircles().getLikerCount()+"");
             List list=status.getCircles().getLikedUsers();
           for (int i=0;i<list.size();i++){
-                AVUser user= (AVUser) list.get(i);
-                if (user.getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
+              AVUser user= (AVUser) list.get(i);
+              if (user.getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
                     //说明我已经点过赞
                     holder.mLikeIv.setImageResource(R.mipmap.appreciate_fill_light);
                 }
             }
             //点击点赞图标
+            if (!status.getCircles().isLike()){
             holder.mLikeIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     presenter.addLike(circlePostition,status.getCircles().getObjectId());
                 }
             });
-
+            }
         }
     }
 

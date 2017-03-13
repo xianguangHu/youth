@@ -85,4 +85,23 @@ public class Circles extends AVObject{
     public void addLikedUsers(AVUser user){
         likedUsers.add(user);
     }
+
+    /**
+     *
+     * @return true 表示自己已经点过赞
+     * false 表示没有点赞
+     */
+    public boolean isLike(){
+        List list=getLikedUsers();
+        for (int i=0;i<list.size();i++){
+            AVUser user= (AVUser) list.get(i);
+            if (user.getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
+                //说明自己已经点过赞
+                return true;
+            }else {
+                return false;
+            }
+        }
+        return false;
+    }
 }
