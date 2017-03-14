@@ -7,6 +7,8 @@ import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
 import com.hxg.u1.xiaoyuan.bean.Circles;
 import com.hxg.u1.xiaoyuan.bean.Comment;
+import com.hxg.u1.xiaoyuan.bean.Image;
+import com.hxg.u1.xiaoyuan.bean.LostFound;
 import com.hxg.u1.xiaoyuan.bean.Schools;
 import com.hxg.u1.xiaoyuan.model.Model;
 import com.squareup.leakcanary.LeakCanary;
@@ -22,6 +24,8 @@ public class MyApplication extends Application {
         super.onCreate();
         LeakCanary.install(this);//oom检测
         mContext = getApplicationContext();
+        AVObject.registerSubclass(Image.class);
+        AVObject.registerSubclass(LostFound.class);
         AVObject.registerSubclass(Circles.class);
         AVObject.registerSubclass(Schools.class);
         AVObject.registerSubclass(Comment.class);

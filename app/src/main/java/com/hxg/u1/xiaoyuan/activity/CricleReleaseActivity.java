@@ -75,7 +75,7 @@ public class CricleReleaseActivity extends Activity {
     private PopupWindow pop = null;
     private LinearLayout mLl_popup;
     private GridAdapter mAdapter;
-    private List<Bitmap> mBitmaps=new ArrayList<>();
+    private List<Bitmap> mBitmaps = new ArrayList<>();
     private String mImagePath;
     private Bitmap mBitmap;
     private Bitmap mNewbitmap;
@@ -107,12 +107,12 @@ public class CricleReleaseActivity extends Activity {
     @Override
     protected void onDestroy() {
         // 先判断是否已经回收
-        if(mBitmap != null && !mBitmap.isRecycled()){
+        if (mBitmap != null && !mBitmap.isRecycled()) {
             // 回收并且置为null
             mBitmap.recycle();
             mBitmap = null;
         }
-        if(mNewbitmap != null && !mNewbitmap.isRecycled()){
+        if (mNewbitmap != null && !mNewbitmap.isRecycled()) {
             // 回收并且置为null
             mNewbitmap.recycle();
             mNewbitmap = null;
@@ -202,37 +202,31 @@ public class CricleReleaseActivity extends Activity {
             String imageFilePath = getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA);
             //根据当前时间生成图片的名称
-            String timestamp = "/"+formatter.format(new Date())+".jpg";
+            String timestamp = "/" + formatter.format(new Date()) + ".jpg";
             Uri imageFileUri;
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){////如果是7.0android系统
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {////如果是7.0android系统
                 ContentValues contentValues = new ContentValues(1);
                 contentValues.put(MediaStore.Images.Media.DATA, new File(imageFilePath, timestamp).getAbsolutePath());
-                imageFileUri= getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues);
-            }else {
-                File imageFile = new File(imageFilePath,timestamp);// 通过路径创建保存文件
+                imageFileUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+            } else {
+                File imageFile = new File(imageFilePath, timestamp);// 通过路径创建保存文件
                 mImagePath = imageFile.getAbsolutePath();
                 imageFileUri = Uri.fromFile(imageFile);// 获取文件的Uri
             }
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT,imageFileUri);// 告诉相机拍摄完毕输出图片到指定的Uri
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);// 告诉相机拍摄完毕输出图片到指定的Uri
             startActivityForResult(intent, REQUEST_THUMBNAIL);
         } else {
             Toast.makeText(this, "内存卡不存在!", Toast.LENGTH_LONG).show();
         }
     }
-    String[] proj = { MediaStore.MediaColumns.DATA };
+
+    String[] proj = {MediaStore.MediaColumns.DATA};
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_THUMBNAIL) {
-//                bitmap = (Bitmap) data.getExtras().get("data");
-////                FileUtil.saveBitmap(bitmap, fileName);
-////
-////                ImageItem takePhoto = new ImageItem();
-////                takePhoto.setBitmap(bitmap);
-////                Bimp.tempSelectBitmap.add(takePhoto);
-//                mBitmaps.add(bitmap);
                 String imagePath = "";
                 Uri uri = null;
                 if (data != null && data.getData() != null) {// 有数据返回直接使用返回的图片地址
@@ -246,13 +240,14 @@ public class CricleReleaseActivity extends Activity {
                 } else {// 无数据使用指定的图片路径
                     imagePath = mImagePath;
                 }
-                mBitmap = ImageUtil.getImageThumbnail(imagePath,ImageUtil.getWidth(CricleReleaseActivity.this),ImageUtil.getHeight(CricleReleaseActivity.this));
+                mBitmap = ImageUtil.getImageThumbnail(imagePath, ImageUtil.getWidth(CricleReleaseActivity.this), ImageUtil.getHeight(CricleReleaseActivity.this));
                 int degree = ImageUtil.getBitmapDegree(imagePath);
                 /**
                  * 把图片旋转为正的方向
                  */
                 mNewbitmap = ImageUtil.rotateBitmapByDegree(mBitmap, degree);
                 mBitmaps.add(mNewbitmap);
+                mAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -270,7 +265,7 @@ public class CricleReleaseActivity extends Activity {
             public void performAction(View view) {
                 //将数据发送到服务器
                 mEt = mCirleReleaseEt.getText().toString();
-                if (TextUtils.isEmpty(mEt) == false || mBitmaps.size()>0) {
+                if (TextUtils.isEmpty(mEt) == false || mBitmaps.size() > 0) {
                     new Thread() {
                         @Override
                         public void run() {
@@ -376,36 +371,6 @@ public class CricleReleaseActivity extends Activity {
             public ImageView image;
         }
 
-//        Handler handler = new Handler() {
-//            public void handleMessage(Message msg) {
-//                switch (msg.what) {
-//                    case 1:
-//                        mAdapter.notifyDataSetChanged();
-//                        break;
-//                }
-//                super.handleMessage(msg);
-//            }
-//        };
-//
-//        public void loading() {
-//            new Thread(new Runnable() {
-//                public void run() {
-//                    while (true) {
-//                        if (Bimp.max == mBitmaps.size()) {
-//                            Message message = new Message();
-//                            message.what = 1;
-//                            handler.sendMessage(message);
-//                            break;
-//                        } else {
-//                            Bimp.max += 1;
-//                            Message message = new Message();
-//                            message.what = 1;
-//                            handler.sendMessage(message);
-//                        }
-//                    }
-//                }
-//            }).start();
-//        }
     }
 }
 

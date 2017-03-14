@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/parent"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
     <LinearLayout
         android:id="@+id/ll_popup"
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/white" />
+            android:background="@color/Wathet" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,13 +23,13 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/item_popupwindows_camera"
+                android:id="@+id/item_popupwindows_lost"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:background="@drawable/bt_nobgd"
                 android:textColor="#585858"
                 android:textSize="18sp"
-                android:text="拍照" />
+                android:text="我遗失了" />
         </LinearLayout>
 
         <TextView
@@ -44,13 +44,13 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/item_popupwindows_Photo"
+                android:id="@+id/item_popupwindows_found"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:background="@drawable/bt_nobgd"
                 android:textColor="#585858"
                 android:textSize="18sp"
-                android:text="从相册中选取" />
+                android:text="我拾到了" />
         </LinearLayout>
 
         <TextView

@@ -14,7 +14,9 @@ import java.util.List;
 @AVClassName("Circle")
 public class Circles extends AVObject{
 
-    public Circles(){}
+    public Circles(){
+        super();
+    }
     public AVUser getUserId(){
         return super.getAVUser("userId");
     }

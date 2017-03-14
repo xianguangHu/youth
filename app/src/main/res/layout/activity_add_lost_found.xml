@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/add_lostfound_release"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -38,6 +39,7 @@
                 android:src="@mipmap/goods"/>
 
             <EditText
+                android:id="@+id/add_lostfound_goods"
                 android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,6 +63,7 @@
                 android:src="@mipmap/place"/>
 
             <EditText
+                android:id="@+id/add_lostfound_local"
                 android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -83,6 +86,7 @@
                 android:src="@mipmap/time"/>
 
             <EditText
+                android:id="@+id/add_lostfound_time"
                 android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,17 +101,32 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <EditText
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edit_sharp"
-            android:hint="描述下遗失(拾到)物品吧!"
-            android:minLines="3"
-            android:gravity="start"/>
+
+            <EditText
+                android:id="@+id/add_lostfound_describe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edit_sharp"
+                android:gravity="start"
+                android:hint="描述下遗失(拾到)物品吧!"
+                android:minLines="3"
+                android:textSize="14sp"/>
         </LinearLayout>
+        <GridView
+            android:id="@+id/add_lostfound_grid"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:layout_margin="10dp"
+            android:columnWidth="90dp"
+            android:gravity="center"
+            android:horizontalSpacing="2dp"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="2dp">
+        </GridView>
     </LinearLayout>
 
 </LinearLayout>
