@@ -152,7 +152,6 @@ public class CircleActivity extends Activity implements CircleContract.View {
             //设置刷新关闭
             mRecyclerView.setRefreshing(false);
             mCircleAdapter.setDatas(datas);
-            System.out.println("刷新完毕。。。。。");
             mCircleAdapter.notifyDataSetChanged();
 
         }

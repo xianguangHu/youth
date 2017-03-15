@@ -12,26 +12,29 @@ import android.view.ViewGroup;
 
 import com.hxg.u1.xiaoyuan.R;
 import com.hxg.u1.xiaoyuan.adapter.LostFoundAdapter;
+import com.hxg.u1.xiaoyuan.bean.LostFound;
 import com.hxg.u1.xiaoyuan.contract.LostFoundContract;
 import com.hxg.u1.xiaoyuan.model.LostFoundPresenter;
 import com.hxg.u1.xiaoyuan.widgets.DivItemDecoration;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
+ * Lostfound Base类
  */
 public class LostFoundFragment extends Fragment implements LostFoundContract.View{
 
 
     @BindView(R.id.fragment_base_LostFound)
     SuperRecyclerView mFragmentBaseLostFound;
-    private LinearLayoutManager mLayoutManager;
-    private SwipeRefreshLayout.OnRefreshListener mRefreshListener;
-    private LostFoundPresenter mPresenter;
-    private LostFoundAdapter mLostFoundAdapter;
+    public LinearLayoutManager mLayoutManager;
+    public LostFoundPresenter mPresenter;
+    public LostFoundAdapter mLostFoundAdapter;
 
     public LostFoundFragment() {
         // Required empty public constructor
@@ -44,8 +47,9 @@ public class LostFoundFragment extends Fragment implements LostFoundContract.Vie
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_lost_found, container, false);
         ButterKnife.bind(this, view);
-        mPresenter = new LostFoundPresenter();
+        mPresenter = new LostFoundPresenter(getActivity(),this);
         initView();
+        System.out.println("LostFound=======================");
         return view;
     }
     @SuppressLint({"ClickableViewAccessibility", "InlinedApi"})
@@ -56,17 +60,19 @@ public class LostFoundFragment extends Fragment implements LostFoundContract.Vie
         //添加分割线
         mFragmentBaseLostFound.addItemDecoration(new DivItemDecoration(2, true));
         mFragmentBaseLostFound.getMoreProgressView().getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-        //下拉加载
-        mRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+
+        mFragmentBaseLostFound.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.loadData();
+                BaseonRefresh();
             }
-        };
-        mFragmentBaseLostFound.setRefreshListener(mRefreshListener);
+        });
         //添加适配器
-        mLostFoundAdapter = new LostFoundAdapter();
+        mLostFoundAdapter = new LostFoundAdapter(getActivity());
         mFragmentBaseLostFound.setAdapter(mLostFoundAdapter);
+    }
+    //子类实现
+    public void BaseonRefresh() {
     }
 
     @Override
@@ -82,5 +88,14 @@ public class LostFoundFragment extends Fragment implements LostFoundContract.Vie
     @Override
     public void showError(String errorMsg) {
 
+    }
+
+    //获取到数据 将数据给适配器
+    @Override
+    public void update2loadData(List<LostFound> datas) {
+        //刷新关闭
+        mFragmentBaseLostFound.setRefreshing(false);
+        mLostFoundAdapter.setDatas(datas);
+        mLostFoundAdapter.notifyDataSetChanged();
     }
 }

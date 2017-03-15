@@ -45,4 +45,10 @@ public class Image extends AVObject {
         super.put("imageFile", file);
     }
 
+    public void setImageUrl(AVFile file){
+        put("imageUrl",file.getUrl());
+    }
+    public String getImageUrl(){
+        return getString("imageUrl");
+    }
 }

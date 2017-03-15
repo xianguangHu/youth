@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.hxg.u1.xiaoyuan.bean.Image;
@@ -63,6 +64,7 @@ public class LostFoundService {
                                 @Override
                                 public void done(AVException e) {
                                     final Image image = new Image();
+                                    image.setImageUrl(file);
                                     image.setHeight(h);
                                     image.setWidth(w);
                                     image.setRawImage(file);
@@ -70,7 +72,7 @@ public class LostFoundService {
                                         @Override
                                         public void done(AVException e) {
                                             try {
-                                                LostFound update= AVObject.createWithoutData(LostFound.class,lostFound.getObjectId());
+                                                LostFound update = AVObject.createWithoutData(LostFound.class, lostFound.getObjectId());
                                                 update.addImages(image);
                                                 update.saveInBackground();
                                             } catch (AVException e1) {
@@ -91,8 +93,24 @@ public class LostFoundService {
                 }
             }
         });
+    }
 
-
+    /**
+     * @param type    查询的类型是Lost 还是found
+     * @param schools 学校区域
+     * @return
+     */
+    public static List<LostFound> getLostFoundDatas(int type, Schools schools) throws AVException {
+        if (type == Constant.LOSTSTATE || type == Constant.FOUNDSTATE) {
+            AVQuery<LostFound> query = AVObject.getQuery(LostFound.class);
+            query.whereEqualTo("type", type);
+            query.whereEqualTo("school", schools);
+            query.limit(15);
+            query.include("images");
+            List<LostFound> lostFounds= query.find();
+            return lostFounds;
+        }
+        return null;
     }
 
 

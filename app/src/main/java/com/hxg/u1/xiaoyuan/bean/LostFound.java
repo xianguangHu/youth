@@ -66,7 +66,7 @@ public class LostFound extends AVObject{
         return (Schools) get("school");
     }
     @SuppressWarnings("unchecked")
-    public List getImages() {
+    public List<Image> getImages() {
         return getList("images");
     }
     public void addImages(Image image) {
