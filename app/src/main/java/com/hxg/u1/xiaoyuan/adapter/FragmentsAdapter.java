@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by huxianguang on 2017/3/13.
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 public class FragmentsAdapter extends FragmentPagerAdapter {
     private static String title[]=new String[]{"失物","招领"};
-    private ArrayList<Fragment> mArrayList;
-    public FragmentsAdapter(FragmentManager fm, ArrayList<Fragment> fragmentArrayList) {
+    private List<Fragment> mArrayList;
+    public FragmentsAdapter(FragmentManager fm, List<Fragment> fragmentArrayList) {
         super(fm);
         this.mArrayList=fragmentArrayList;
     }

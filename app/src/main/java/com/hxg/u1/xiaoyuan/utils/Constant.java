@@ -16,5 +16,7 @@ public class Constant {
     public static final String FOUND="found";
     public static final int LOSTSTATE=0;
     public static final int FOUNDSTATE=1;
+    //用户头像上传
+    public static final int CROP_SMALL_PICTURE = 2;//头像剪裁后标签
 
 }

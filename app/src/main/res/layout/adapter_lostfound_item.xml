@@ -52,7 +52,7 @@
                         android:id="@+id/lostfound_item_iv1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/goods_32"/>
+                        android:src="@mipmap/goods_48"/>
 
                     <TextView
                         android:id="@+id/lostfound_item_goods"
@@ -61,14 +61,14 @@
                         android:layout_toRightOf="@id/lostfound_item_iv1"
                         android:layout_centerVertical="true"
                         android:text="移动硬盘"
-                        android:textSize="10sp"
+                        android:textSize="14sp"
                         android:textColor="#555555"/>
 
                     <ImageView
                         android:id="@+id/lostfound_item_iv2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/local_32"
+                        android:src="@mipmap/local_48"
                         android:layout_toRightOf="@id/lostfound_item_goods"
                         android:layout_marginLeft="7dp"/>
 
@@ -79,13 +79,13 @@
                         android:layout_toRightOf="@id/lostfound_item_iv2"
                         android:layout_centerVertical="true"
                         android:text="教室一排二坐"
-                        android:textSize="10sp"
+                        android:textSize="14sp"
                         android:textColor="#555555"/>
                     <ImageView
                         android:id="@+id/lostfound_item_iv3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/time_32"
+                        android:src="@mipmap/time_48"
                         android:layout_toRightOf="@id/lostfound_item_local"
                         android:layout_marginLeft="7dp"/>
 
@@ -96,7 +96,7 @@
                         android:layout_toRightOf="@id/lostfound_item_iv3"
                         android:layout_centerVertical="true"
                         android:text="2017—1-12 7：20"
-                        android:textSize="10sp"
+                        android:textSize="14sp"
                         android:textColor="#555555"/>
                 </RelativeLayout>
             </LinearLayout>

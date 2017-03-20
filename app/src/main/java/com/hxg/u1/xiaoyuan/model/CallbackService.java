@@ -1,11 +1,12 @@
 package com.hxg.u1.xiaoyuan.model;
 
-import java.util.List;
+import com.avos.avoscloud.AVException;
 
 /**
  * Created by huxianguang on 2017/3/4.
  */
 
-public interface CallbackService<T> {
-    void callback(List<T> list);
+public interface CallbackService {
+//    void callback(List<T> list);
+    void callback(String uri, AVException e);
 }

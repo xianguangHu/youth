@@ -44,7 +44,7 @@ public class LostFoundAdapter extends BaseRecycleViewAdapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         LostFoundViewHolder holder = (LostFoundViewHolder) viewHolder;
         LostFound lostFound = (LostFound) datas.get(position);
         AVUser user = lostFound.getUserId();
@@ -94,6 +94,12 @@ public class LostFoundAdapter extends BaseRecycleViewAdapter {
                 }
             }
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemListener.onItemClick(position);
+            }
+        });
     }
 
     @Override

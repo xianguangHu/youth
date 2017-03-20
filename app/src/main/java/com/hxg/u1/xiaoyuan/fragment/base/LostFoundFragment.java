@@ -14,6 +14,7 @@ import com.hxg.u1.xiaoyuan.R;
 import com.hxg.u1.xiaoyuan.adapter.LostFoundAdapter;
 import com.hxg.u1.xiaoyuan.bean.LostFound;
 import com.hxg.u1.xiaoyuan.contract.LostFoundContract;
+import com.hxg.u1.xiaoyuan.listner.RecycleViewItemListener;
 import com.hxg.u1.xiaoyuan.model.LostFoundPresenter;
 import com.hxg.u1.xiaoyuan.widgets.DivItemDecoration;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
@@ -22,6 +23,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,7 +53,6 @@ public class LostFoundFragment extends Fragment implements LostFoundContract.Vie
         ButterKnife.bind(this, view);
         mPresenter = new LostFoundPresenter(getActivity(),this);
         initView();
-        System.out.println("LostFound=======================");
         return view;
     }
     @SuppressLint({"ClickableViewAccessibility", "InlinedApi"})
@@ -58,7 +61,7 @@ public class LostFoundFragment extends Fragment implements LostFoundContract.Vie
         mLayoutManager = new LinearLayoutManager(getActivity());
         mFragmentBaseLostFound.setLayoutManager(mLayoutManager);
         //添加分割线
-        mFragmentBaseLostFound.addItemDecoration(new DivItemDecoration(2, true));
+        mFragmentBaseLostFound.addItemDecoration(new DivItemDecoration(3, true));
         mFragmentBaseLostFound.getMoreProgressView().getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
         mFragmentBaseLostFound.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -69,6 +72,12 @@ public class LostFoundFragment extends Fragment implements LostFoundContract.Vie
         });
         //添加适配器
         mLostFoundAdapter = new LostFoundAdapter(getActivity());
+        //adapter的监听
+        mLostFoundAdapter.setItemListener(new RecycleViewItemListener() {
+            @Override
+            public void onItemClick(int position) {
+            }
+        });
         mFragmentBaseLostFound.setAdapter(mLostFoundAdapter);
     }
     //子类实现

@@ -5,6 +5,9 @@ import android.content.Context;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVUser;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.hxg.u1.xiaoyuan.bean.AvUser;
 import com.hxg.u1.xiaoyuan.bean.Circles;
 import com.hxg.u1.xiaoyuan.bean.Comment;
 import com.hxg.u1.xiaoyuan.bean.Image;
@@ -24,6 +27,7 @@ public class MyApplication extends Application {
         super.onCreate();
         LeakCanary.install(this);//oom检测
         mContext = getApplicationContext();
+        AVUser.alwaysUseSubUserClass(AvUser.class);
         AVObject.registerSubclass(Image.class);
         AVObject.registerSubclass(LostFound.class);
         AVObject.registerSubclass(Circles.class);
@@ -36,6 +40,7 @@ public class MyApplication extends Application {
         AVOSCloud.setDebugLogEnabled(true);
         //初始化数据模型层类
         Model.getInstance().init(this);
+        Fresco.initialize(this);
     }
     public static Context getContext(){
         return mContext;

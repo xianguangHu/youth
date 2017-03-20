@@ -14,6 +14,9 @@ import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,13 +49,15 @@ public class ImageUtil {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         return dm.heightPixels;
     }
+
     /**
      * 解决小米等定制ROM手机返回的绝对路径错误的问题
+     *
      * @param context
      * @param intent
      * @return uri 拼出来的URI
      */
-    public static Uri getUri(Context context , Intent intent) {
+    public static Uri getUri(Context context, Intent intent) {
         Uri uri = intent.getData();
         String type = intent.getType();
         if (uri.getScheme().equals("file") && (type.contains("image/"))) {
@@ -64,7 +69,7 @@ public class ImageUtil {
                 buff.append("(").append(MediaStore.Images.ImageColumns.DATA).append("=")
                         .append("'" + path + "'").append(")");
                 Cursor cur = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        new String[] { MediaStore.Images.ImageColumns._ID },
+                        new String[]{MediaStore.Images.ImageColumns._ID},
                         buff.toString(), null, null);
                 int index = 0;
                 for (cur.moveToFirst(); !cur.isAfterLast(); cur.moveToNext()) {
@@ -87,6 +92,7 @@ public class ImageUtil {
         }
         return uri;
     }
+
     /**
      * 根据文件Uri获取路径
      *
@@ -105,12 +111,13 @@ public class ImageUtil {
         cursor.close();
         return filePath;
     }
+
     /**
      * 根据图片原始路径获取图片缩略图
      *
      * @param imagePath 图片原始路径
-     * @param width		缩略图宽度
-     * @param height	缩略图高度
+     * @param width     缩略图宽度
+     * @param height    缩略图高度
      * @return
      */
     public static Bitmap getImageThumbnail(String imagePath, int width,
@@ -120,11 +127,11 @@ public class ImageUtil {
         options.inJustDecodeBounds = true;//不加载直接获取Bitmap宽高
         // 获取这个图片的宽和高，注意此处的bitmap为null
         bitmap = BitmapFactory.decodeFile(imagePath, options);
-        if(bitmap == null){
+        if (bitmap == null) {
             // 计算缩放比
             int h = options.outHeight;
             int w = options.outWidth;
-            Log.i("test", "optionsH"+h+"optionsW"+w);
+            Log.i("test", "optionsH" + h + "optionsW" + w);
             int beWidth = w / width;
             int beHeight = h / height;
             int rate = 1;
@@ -146,16 +153,18 @@ public class ImageUtil {
         }
         return bitmap;
     }
-    public static List<Bitmap> getBitmaps(List list,Context context){
-        List<Bitmap> bitmaps=new ArrayList<>();
-        if (list.size()>0){
-            for (int i=o;i<list.size();i++) {
-                Bitmap bitmap = getImageThumbnail((String) list.get(i),getWidth(context), getWidth(context));
+
+    public static List<Bitmap> getBitmaps(List list, Context context) {
+        List<Bitmap> bitmaps = new ArrayList<>();
+        if (list.size() > 0) {
+            for (int i = o; i < list.size(); i++) {
+                Bitmap bitmap = getImageThumbnail((String) list.get(i), getWidth(context), getWidth(context));
                 bitmaps.add(bitmap);
             }
         }
         return bitmaps;
     }
+
     public static int getBitmapDegree(String path) {
         int degree = 0;
         try {
@@ -180,6 +189,7 @@ public class ImageUtil {
         }
         return degree;
     }
+
     /**
      * 将图片按照某个角度进行旋转
      *
@@ -205,6 +215,80 @@ public class ImageUtil {
             bm.recycle();
         }
         return returnBm;
+    }
+
+    /**
+     * 裁剪图片方法的实现
+     *
+     * @param uri 图片的uri
+     */
+    public static Intent PhotoCutUtil(Uri uri) {
+        if (uri != null) {
+            Intent intent = new Intent("com.android.camera.action.CROP");
+            intent.setDataAndType(uri, "image/*");
+            // 设置裁剪
+            intent.putExtra("crop", "true");
+            // aspectX aspectY 是宽高的比例
+            intent.putExtra("aspectX", 1);
+            intent.putExtra("aspectY", 1);
+            // outputX outputY 是裁剪图片宽高
+            intent.putExtra("outputX", 150);
+            intent.putExtra("outputY", 150);
+            intent.putExtra("scale", true);
+            intent.putExtra("return-data", true);
+            return intent;
+        }
+        return null;
+    }
+
+    /**
+     * Save image to the SD card
+     *
+     * @param photoBitmap
+     * @param path
+     * @param photoName
+     */
+    public static String savePhoto(Bitmap photoBitmap, String path,
+                                   String photoName) {
+        String localPath = null;
+        if (android.os.Environment.getExternalStorageState().equals(
+                android.os.Environment.MEDIA_MOUNTED)) {
+            File dir = new File(path);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            File photoFile = new File(path, photoName + ".jpg");
+            FileOutputStream fileOutputStream = null;
+            try {
+                fileOutputStream = new FileOutputStream(photoFile);
+                if (photoBitmap != null) {
+                    if (photoBitmap.compress(Bitmap.CompressFormat.JPEG, 100,
+                            fileOutputStream)) { // 转换完成
+                        localPath = photoFile.getPath();
+                        fileOutputStream.flush();
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                photoFile.delete();
+                localPath = null;
+                e.printStackTrace();
+            } catch (IOException e) {
+                photoFile.delete();
+                localPath = null;
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (fileOutputStream != null) {
+                        fileOutputStream.close();
+                        fileOutputStream = null;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return localPath;
     }
 
 }

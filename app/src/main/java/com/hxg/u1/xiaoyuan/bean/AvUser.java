@@ -7,5 +7,10 @@ import com.avos.avoscloud.AVUser;
  */
 
 public class AvUser extends AVUser{
-
+    public void setImageUri(String uri){
+        this.put("imageuri",uri);
+    }
+    public String getImageUri(){
+        return this.getString("imageuri");
+    }
 }

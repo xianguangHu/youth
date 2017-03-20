@@ -27,6 +27,7 @@ import com.hxg.u1.xiaoyuan.widgets.TitleBar;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +40,7 @@ public class LostFoundActivity extends AppCompatActivity {
     TabLayout mLostFoundTablayout;
     @BindView(R.id.LostFound_viewpager)
     ViewPager mLostFoundViewpager;
-    private static ArrayList<Fragment> fragmentList = new ArrayList<>();
+    private static List<Fragment> fragmentList = new ArrayList<>();
     private FragmentsAdapter mFragmentsAdapter;
     private PopupWindow mPop;
     private LinearLayout mLl_popup;

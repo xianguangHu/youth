@@ -28,4 +28,5 @@
     <color name="im_social_dig_name_bg">#DDDDDD</color>
     <color name="basic_color_primary">#373b3e</color>
     <color name="title">#0e6bcf</color>
+    <color name="red">#000000</color>
 </resources>

@@ -6,5 +6,5 @@ package com.hxg.u1.xiaoyuan.listner;
 public interface RecycleViewItemListener {
 
     void onItemClick(int position);
-    boolean onItemLongClick(int position);
+//    boolean onItemLongClick(int position);//长按
 }
