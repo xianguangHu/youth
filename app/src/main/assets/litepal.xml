@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="userinf" ></dbname>
+    <version value="1" ></version>
+    <list>
+        <mapping class="com.hxg.u1.xiaoyuan.SQLBean.Userbean"></mapping>
+    </list>
+    <storage value="internal"></storage>
+</litepal>

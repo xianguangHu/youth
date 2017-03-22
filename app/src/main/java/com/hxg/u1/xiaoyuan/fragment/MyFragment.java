@@ -20,12 +20,13 @@ import android.widget.TextView;
 import com.avos.avoscloud.AVException;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.hxg.u1.xiaoyuan.R;
+import com.hxg.u1.xiaoyuan.activity.MyDataActivity;
+import com.hxg.u1.xiaoyuan.activity.SettingActivity;
 import com.hxg.u1.xiaoyuan.bean.AvUser;
 import com.hxg.u1.xiaoyuan.model.CallbackService;
 import com.hxg.u1.xiaoyuan.model.UserService;
 import com.hxg.u1.xiaoyuan.utils.Constant;
 import com.hxg.u1.xiaoyuan.utils.ImageUtil;
-import com.hxg.u1.xiaoyuan.utils.StatusNetAsyncTask;
 
 import java.io.File;
 
@@ -47,6 +48,8 @@ public class MyFragment extends Fragment {
     TextView mMyFragmentTvUsername;
     @BindView(R.id.my_fragment_mydata)
     RelativeLayout mMyFragmentMydata;
+    @BindView(R.id.my_fragment_setting)
+    ImageView mMyFragmentSetting;
     private Uri mMTempUri;
 
     public MyFragment() {
@@ -59,28 +62,29 @@ public class MyFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my, container, false);
         ButterKnife.bind(this, view);
-        initView();
+
         return view;
     }
 
-    private void initView() {
-        new StatusNetAsyncTask(getActivity()) {
-            AvUser user;
-
-            @Override
-            protected void doInBack() throws Exception {
-                user = UserService.queryUser();
-            }
-
-            @Override
-            protected void onPost(Exception e) {
-                Log.v("地址", user.getImageUri());
-                mMyImageView.setImageURI(Uri.parse(user.getImageUri()));
-            }
-        }.execute();
+    @Override
+    public void onResume() {
+        super.onResume();
+        initView();
     }
 
-    @OnClick({R.id.my_image_view,R.id.my_fragment_mydata})
+    private void initView() {
+        AvUser user = AvUser.getCurrentUser();
+        Log.v("'uri====", AvUser.getCurrentUser().getImageUri());
+        mMyImageView.setImageURI(Uri.parse(user.getImageUri()));
+        if ("男".equals(user.getGender())) {
+            mMyFragmentIvGender.setImageResource(R.mipmap.man_32);
+        } else {
+            mMyFragmentIvGender.setImageResource(R.mipmap.woman_32);
+        }
+        mMyFragmentTvUsername.setText(user.getUsername());
+    }
+
+    @OnClick({R.id.my_image_view, R.id.my_fragment_mydata,R.id.my_fragment_setting})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.my_image_view:
@@ -88,7 +92,10 @@ public class MyFragment extends Fragment {
                 showChoosePicDialog();
                 break;
             case R.id.my_fragment_mydata:
-
+                startActivity(new Intent(getActivity(), MyDataActivity.class));
+                break;
+            case R.id.my_fragment_setting://设置页面
+                startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
         }
     }

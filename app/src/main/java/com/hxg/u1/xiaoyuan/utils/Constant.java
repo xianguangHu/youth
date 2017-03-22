@@ -5,6 +5,10 @@ package com.hxg.u1.xiaoyuan.utils;
  */
 
 public class Constant {
+    //sharedPrefs保存的文件名
+    public static final String FILE_NAME="MySetting";
+    //版本更新下载文件路径
+    public static final String UPDATEFILE_PATH="/updateVersion/youth_app.apk";
     public static final String STATUS_DETAIL="StatusDetail";
     public static final String DETAIL_ID="detailId";
     public static final String CREATED_AT = "createdAt";

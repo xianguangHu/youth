@@ -70,9 +70,10 @@ public class CheckActivity extends AppCompatActivity {
                                 // TODO Auto-generated method stub
                                 if (ex == null) {//短信验证码已验证成功
                                     AVUser user=new AVUser();
-                                    user.setUsername(mPhone);
+                                    user.setMobilePhoneNumber(mPhone);
                                     user.setPassword(mPassword);
                                     user.put("schoolId",mMySchools);
+                                    user.setUsername("null");
                                     user.signUpInBackground(new SignUpCallback() {
                                         @Override
                                         public void done(AVException e) {

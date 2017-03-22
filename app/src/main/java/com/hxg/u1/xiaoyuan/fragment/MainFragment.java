@@ -10,12 +10,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.avos.avoscloud.AVUser;
 import com.hxg.u1.xiaoyuan.R;
 import com.hxg.u1.xiaoyuan.activity.LostFoundActivity;
-import com.hxg.u1.xiaoyuan.bean.Schools;
-import com.hxg.u1.xiaoyuan.model.UserService;
-import com.hxg.u1.xiaoyuan.utils.StatusNetAsyncTask;
+import com.hxg.u1.xiaoyuan.utils.Constant;
+import com.hxg.u1.xiaoyuan.utils.SharedPrefsUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,20 +47,8 @@ public class MainFragment extends Fragment {
     }
 
     private void initView() {
-        new StatusNetAsyncTask(getActivity()) {
-            @Override
-            protected void doInBack() throws Exception {
-                UserService.initUser();
-            }
-
-            @Override
-            protected void onPost(Exception e) {
-                Schools schools = (Schools) AVUser.getCurrentUser().get("schoolId");
-                System.out.println(schools.getSchoolName());
-                mFragmentMainSchool.setText(schools.getSchoolName());
-
-            }
-        }.execute();
+        String school= SharedPrefsUtil.getValue(getActivity(), Constant.FILE_NAME,"School","");
+        mFragmentMainSchool.setText(school);
     }
 
     @OnClick(R.id.fragment_main_lost)

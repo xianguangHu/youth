@@ -3,6 +3,7 @@ package com.hxg.u1.xiaoyuan.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,8 +13,15 @@ import android.widget.TextView;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.LogInCallback;
+import com.hxg.u1.xiaoyuan.MyApplication;
 import com.hxg.u1.xiaoyuan.R;
+import com.hxg.u1.xiaoyuan.bean.Schools;
 import com.hxg.u1.xiaoyuan.model.Model;
+import com.hxg.u1.xiaoyuan.model.UserService;
+import com.hxg.u1.xiaoyuan.utils.Constant;
+import com.hxg.u1.xiaoyuan.utils.MainUtil;
+import com.hxg.u1.xiaoyuan.utils.SharedPrefsUtil;
+import com.hxg.u1.xiaoyuan.utils.StatusNetAsyncTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,13 +68,29 @@ public class LoginActivity extends Activity {
                 Model.getInstance().getGlobalThreadpool().execute(new Runnable() {
                     @Override
                     public void run() {
-                        AVUser.logInInBackground(mPhone, mPassword, new LogInCallback<AVUser>() {
+                        AVUser.loginByMobilePhoneNumberInBackground(mPhone, mPassword, new LogInCallback<AVUser>() {
                             @Override
                             public void done(AVUser avUser, AVException e) {
                                 if (e==null){
+                                    //保存学校信息
+                                    new StatusNetAsyncTask(LoginActivity.this) {
+                                        Schools schools;
+                                        @Override
+                                        protected void doInBack() throws Exception {
+                                            schools = UserService.getSchool();
+                                        }
+
+                                        @Override
+                                        protected void onPost(Exception e) {
+                                            //储存用户学校信息
+                                            SharedPrefsUtil.putValue(LoginActivity.this, Constant.FILE_NAME,"School",schools.getSchoolName());
+                                        }
+                                    }.execute();
                                     //登陆成功
                                     startActivity(new Intent(LoginActivity.this,MainActivity.class));
                                 }else {
+                                    Log.v("code错误吗",e+"");
+                                    MainUtil.ToastUtil(MyApplication.getContext(),"登陆失败");
                                 }
                             }
                         });
@@ -76,6 +100,7 @@ public class LoginActivity extends Activity {
             case R.id.login_seek:
                 break;
             case R.id.login_register:
+                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
                 break;
         }
     }

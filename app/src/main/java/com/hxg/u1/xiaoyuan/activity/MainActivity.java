@@ -8,10 +8,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hxg.u1.xiaoyuan.R;
+import com.hxg.u1.xiaoyuan.bean.VersionInfo;
 import com.hxg.u1.xiaoyuan.fragment.FriendFragment;
 import com.hxg.u1.xiaoyuan.fragment.MainFragment;
 import com.hxg.u1.xiaoyuan.fragment.MyFragment;
 import com.hxg.u1.xiaoyuan.fragment.ScheduleFragment;
+import com.hxg.u1.xiaoyuan.model.VersionService;
+import com.hxg.u1.xiaoyuan.utils.VersionUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +42,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initFragmentTabhost();
+        initData();
+    }
+
+    private void initData() {
+        //检查版本更新
+        VersionService.isUpdate(new VersionUtil.UpdateListener() {
+            @Override
+            public void onUpdateReturned(int updateStatus, VersionInfo versionInfo) {
+                switch (updateStatus){
+                    case VersionUtil.YES:
+                        //有更新
+                        VersionUtil.showDialog(MainActivity.this,versionInfo);
+                        break;
+                    case VersionUtil.NO:
+                        break;
+                }
+
+            }
+        });
     }
 
     /**

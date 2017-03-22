@@ -21,6 +21,9 @@
     <!-- SD卡读取权限，用户写入离线定位数据 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
 
+
+
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -67,6 +70,8 @@
         <activity android:name=".activity.AddLostFoundActivity">
         </activity>
         <activity android:name=".activity.MyDataActivity">
+        </activity>
+        <activity android:name=".activity.SettingActivity">
         </activity>
     </application>
 

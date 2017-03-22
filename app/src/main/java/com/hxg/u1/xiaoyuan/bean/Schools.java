@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class Schools extends AVObject implements Serializable{
     public Schools() {
     }
-    public String  getSchoolName(){
+    public  String  getSchoolName(){
         return super.getString("schoolName");
     }
 }

@@ -1,6 +1,5 @@
 package com.hxg.u1.xiaoyuan;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.avos.avoscloud.AVOSCloud;
@@ -13,14 +12,17 @@ import com.hxg.u1.xiaoyuan.bean.Comment;
 import com.hxg.u1.xiaoyuan.bean.Image;
 import com.hxg.u1.xiaoyuan.bean.LostFound;
 import com.hxg.u1.xiaoyuan.bean.Schools;
+import com.hxg.u1.xiaoyuan.bean.VersionInfo;
 import com.hxg.u1.xiaoyuan.model.Model;
 import com.squareup.leakcanary.LeakCanary;
+
+import org.litepal.LitePalApplication;
 
 /**
  * Created by huxianguang on 2017/2/22.
  */
 
-public class MyApplication extends Application {
+public class MyApplication extends LitePalApplication {
     private static Context mContext;
     @Override
     public void onCreate() {
@@ -28,6 +30,7 @@ public class MyApplication extends Application {
         LeakCanary.install(this);//oom检测
         mContext = getApplicationContext();
         AVUser.alwaysUseSubUserClass(AvUser.class);
+        AVObject.registerSubclass(VersionInfo.class);
         AVObject.registerSubclass(Image.class);
         AVObject.registerSubclass(LostFound.class);
         AVObject.registerSubclass(Circles.class);

@@ -7,6 +7,5 @@ import com.avos.avoscloud.AVException;
  */
 
 public interface CallbackService {
-//    void callback(List<T> list);
     void callback(String uri, AVException e);
 }
