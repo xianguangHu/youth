@@ -11,9 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hxg.u1.xiaoyuan.R;
+import com.hxg.u1.xiaoyuan.activity.CarSchoolActivity;
 import com.hxg.u1.xiaoyuan.activity.LostFoundActivity;
 import com.hxg.u1.xiaoyuan.utils.Constant;
 import com.hxg.u1.xiaoyuan.utils.SharedPrefsUtil;
+import com.inmobi.ads.InMobiBanner;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +31,10 @@ public class MainFragment extends Fragment {
     TextView mFragmentMainSchool;
     @BindView(R.id.fragment_main_lost)
     LinearLayout mFragmentMainLost;
+    @BindView(R.id.banner)
+    InMobiBanner mBanner;
+    @BindView(R.id.fragment_main_carSchool)
+    LinearLayout mFragmentMainCarSchool;
 
     public MainFragment() {
         // Required empty public constructor
@@ -41,24 +47,31 @@ public class MainFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
+
         initView();
         return view;
 
     }
 
     private void initView() {
-        String school= SharedPrefsUtil.getValue(getActivity(), Constant.FILE_NAME,"School","");
+        mBanner.load();
+        String school = SharedPrefsUtil.getValue(getActivity(), Constant.FILE_NAME, "School", "");
         mFragmentMainSchool.setText(school);
     }
 
-    @OnClick(R.id.fragment_main_lost)
+    @OnClick({R.id.fragment_main_lost,R.id.fragment_main_carSchool})
     public void onClick(View view) {
-        Intent intent=new Intent();
-        switch (view.getId()){
+        Intent intent = new Intent();
+        switch (view.getId()) {
             case R.id.fragment_main_lost:
-                intent.setClass(getActivity(),LostFoundActivity.class);
+                intent.setClass(getActivity(), LostFoundActivity.class);
+                break;
+
+            case R.id.fragment_main_carSchool:
+                intent.setClass(getActivity(), CarSchoolActivity.class);
                 break;
         }
         startActivity(intent);
     }
+
 }

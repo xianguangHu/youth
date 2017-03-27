@@ -1,6 +1,7 @@
 package com.hxg.u1.xiaoyuan.model;
 
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 
 import com.avos.avoscloud.AVCloudQueryResult;
 import com.avos.avoscloud.AVException;
@@ -13,6 +14,7 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.CloudQueryCallback;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
+import com.hxg.u1.xiaoyuan.bean.AvUser;
 import com.hxg.u1.xiaoyuan.bean.Circle;
 import com.hxg.u1.xiaoyuan.bean.Circles;
 import com.hxg.u1.xiaoyuan.bean.Comment;
@@ -49,7 +51,7 @@ public class StatusService {
                     circle.put(Constant.DETAIL_ID, statusDetail.getObjectId());
                     circle.put("message", text);
                     circle.put("userId", user);
-                    circle.put("schoolId", user.getString("schoolId"));
+                    circle.put("schoolId", AvUser.getCurrentUser().getSchool());
                     //保存到数据库
                     circle.saveInBackground();
                     if (bitmaps.size() > 0) {
@@ -91,17 +93,25 @@ public class StatusService {
         });
     }
 
-    public static List<Circle> getStatusDatas(int limit) throws AVException {
+    /**
+     *
+     * @param limit 返回数据数量
+     * @param skip 跳过数量
+     * @return
+     * @throws AVException
+     */
+    public static List<Circle> getStatusDatas(int limit,int skip) throws AVException {
         //获取到当前登录的user
         AVUser user = AVUser.getCurrentUser();
         //服务器获取数据
         AVQuery<AVObject> query = new AVQuery<>("Circle");
         query.setLimit(limit);
+        query.setSkip(skip);
         query.include("userId");
         query.include("comments");
         query.include("likes");
         query.orderByDescending("createdAt");
-        query.whereEqualTo("schoolId", user.getString("schoolId"));
+        query.whereEqualTo("schoolId",AvUser.getCurrentUser().getSchool());
         List<AVObject> avCircle = query.find();
         for (AVObject tmp:avCircle){
             List<Comment> comments=tmp.getList("comments");
@@ -194,7 +204,7 @@ public class StatusService {
     }
 
     //保存评论
-    public static Comment addComment(String value, final String circleId) {
+    public static Comment addComment(String value, final String circleId, final String installationId) {
         final Comment comment = new Comment();
         comment.setContent(value);
         comment.setCreator(AVUser.getCurrentUser());
@@ -206,7 +216,17 @@ public class StatusService {
                 } else {
                     AVObject circles= AVObject.createWithoutData("Circle",circleId);
                     circles.addUnique("comments",comment);
-                    circles.saveInBackground();
+                    circles.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(AVException e) {
+                            if (e==null&& !TextUtils.isEmpty(installationId)){
+                                //推送给用户
+                                if (!installationId.equals(AvUser.getCurrentUser().getInstallationId())){
+                                MyPushService.pushUserComment(installationId,AvUser.getCurrentUser().getUsername());
+                                }
+                            }
+                        }
+                    });
                 }
             }
         });

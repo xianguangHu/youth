@@ -29,4 +29,11 @@ public class AvUser extends AVUser{
     public String getGender(){
         return getString("gender");
     }
+
+    public Schools getSchool(){
+        return (Schools) get("schoolId");
+    }
+    public String getInstallationId(){
+        return getString("installationId");
+    }
 }

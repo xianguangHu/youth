@@ -13,6 +13,7 @@ import com.hxg.u1.xiaoyuan.fragment.FriendFragment;
 import com.hxg.u1.xiaoyuan.fragment.MainFragment;
 import com.hxg.u1.xiaoyuan.fragment.MyFragment;
 import com.hxg.u1.xiaoyuan.fragment.ScheduleFragment;
+import com.hxg.u1.xiaoyuan.model.MyPushService;
 import com.hxg.u1.xiaoyuan.model.VersionService;
 import com.hxg.u1.xiaoyuan.utils.VersionUtil;
 
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        MyPushService.initPush(this);
     }
 
     /**

@@ -17,7 +17,7 @@ import java.util.List;
  */
 
 public class LostFoundPresenter implements LostFoundContract.Presenter {
-    Context mContext;
+    private Context mContext;
     private List<LostFound> datas=new ArrayList<>();
     private LostFoundContract.View mView;
     public LostFoundPresenter(Context context,LostFoundContract.View view) {

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/carSchool_item"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/carSchool_item_iv"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@color/black"/>
+
+        <TextView
+            android:id="@+id/carSchool_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/carSchool_item_iv"
+            android:layout_marginStart="14dp"
+            android:layout_toEndOf="@+id/carSchool_item_iv"
+            android:text="交通驾校"
+            android:textColor="@color/black"
+            android:textSize="16dp"/>
+
+        <TextView
+            android:id="@+id/carSchool_item_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/carSchool_item_title"
+            android:layout_below="@+id/carSchool_item_title"
+            android:layout_marginTop="10dp"
+            android:text="回家肯定会比较快速电视剧大家快乐撒讲道理；卡时间段房间卡萨六角恐时让我间段"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+    </LinearLayout>
+</LinearLayout>

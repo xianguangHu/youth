@@ -80,12 +80,12 @@ public class CircleAdapter extends BaseRecycleViewAdapter{
             final int circlePostition=position-1;
             final CircleViewHolder holder= (CircleViewHolder) viewholder;
             final Circle status= (Circle) datas.get(position-1);
-            AVUser name=status.getCircles().getUserId();
-//            String name=status.getInnerStatus().getString("1");
-            String statusTime=new SimpleDateFormat("yyyy-MM-dd").format(status.getCircles().getCreatedAt());
+            final AVUser user=status.getCircles().getUserId();
+            String statusTime=new SimpleDateFormat("yyyy-MM-dd HH时mm分").format(status.getCircles().getCreatedAt());
             final String content=status.getCircles().getMessage();
-//            final String content=status.getInnerStatus().getString("1");
-            holder.mNameTv.setText(name.getUsername());
+            if (!TextUtils.isEmpty(user.getUsername())){
+                holder.mNameTv.setText(user.getUsername());
+            }
             holder.mTimeTv.setText(statusTime);
             if (!TextUtils.isEmpty(content)){
                 holder.mContentTv.setText(UrlUtils.formatUrlString(content));
@@ -147,7 +147,8 @@ public class CircleAdapter extends BaseRecycleViewAdapter{
             holder.mCommentIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    presenter.showEditTextBody(status.getCircles().getObjectId(),circlePostition);
+                    String installationId=user.getString("installationId");
+                    presenter.showEditTextBody(status.getCircles().getObjectId(),circlePostition,installationId);
                 }
             });
 
@@ -172,8 +173,8 @@ public class CircleAdapter extends BaseRecycleViewAdapter{
             holder.mLikeTv.setText(status.getCircles().getLikerCount()+"");
             List list=status.getCircles().getLikedUsers();
           for (int i=0;i<list.size();i++){
-              AVUser user= (AVUser) list.get(i);
-              if (user.getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
+              AVUser user1= (AVUser) list.get(i);
+              if (user1.getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
                     //说明我已经点过赞
                     holder.mLikeIv.setImageResource(R.mipmap.appreciate_fill_light);
                 }

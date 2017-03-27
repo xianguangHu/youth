@@ -2,6 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             xmlns:ads="http://schemas.android.com/apk/lib/com.inmobi.ads"
              tools:context="com.hxg.u1.xiaoyuan.fragment.MainFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -59,6 +60,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/fragment_main_carSchool"
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -117,5 +119,10 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+    <com.inmobi.ads.InMobiBanner
+        android:id="@+id/banner"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        ads:placementId="1489680564284"/>
 
 </FrameLayout>

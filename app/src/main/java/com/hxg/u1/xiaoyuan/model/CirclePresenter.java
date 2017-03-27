@@ -3,9 +3,11 @@ package com.hxg.u1.xiaoyuan.model;
 import android.content.Context;
 import android.view.View;
 
+import com.hxg.u1.xiaoyuan.adapter.CircleAdapter;
 import com.hxg.u1.xiaoyuan.bean.Circle;
 import com.hxg.u1.xiaoyuan.bean.Comment;
 import com.hxg.u1.xiaoyuan.contract.CircleContract;
+import com.hxg.u1.xiaoyuan.utils.Constant;
 import com.hxg.u1.xiaoyuan.utils.StatusNetAsyncTask;
 
 import java.util.ArrayList;
@@ -17,7 +19,6 @@ import java.util.List;
  */
 
 public class CirclePresenter implements CircleContract.Presenter {
-    private CircleModel circleModel;
     private CircleContract.View view;
     Context mContext;
     private List<Circle> datas = new ArrayList<>();
@@ -28,11 +29,15 @@ public class CirclePresenter implements CircleContract.Presenter {
     }
 
     @Override
-    public void loadData(final int loadType) {
+    public void loadData(final int loadType, final CircleAdapter adapter) {
         new StatusNetAsyncTask(mContext) {
             @Override
             protected void doInBack() throws Exception {
-                datas = StatusService.getStatusDatas(15);
+                if (loadType== Constant.TYPE_PULLREFRESH){
+                datas = StatusService.getStatusDatas(10,0);
+                }else if (loadType==Constant.TYPE_UPLOADREFRESH){//底部查询
+                    datas = StatusService.getStatusDatas(10,adapter.getDatas().size()+1);
+                }
             }
 
             @Override
@@ -44,9 +49,9 @@ public class CirclePresenter implements CircleContract.Presenter {
         }.execute();
     }
 
-    public void showEditTextBody(String circleId,int circlePostition) {
+    public void showEditTextBody(String circleId,int circlePostition,String installationId) {
         if (view != null) {
-            view.updateEditTextBodyVisible(View.VISIBLE, circleId,circlePostition);
+            view.updateEditTextBodyVisible(View.VISIBLE, circleId,circlePostition,installationId);
         }
     }
 
@@ -55,12 +60,12 @@ public class CirclePresenter implements CircleContract.Presenter {
      * @param content
      * @param circle circleId
      */
-    public void addComment(final String content, final String circle, final int circlePostition) {
+    public void addComment(final String content, final String circle, final int circlePostition, final String installationId) {
         new StatusNetAsyncTask(mContext) {
             Comment comment;
             @Override
             protected void doInBack() throws Exception {
-                comment=StatusService.addComment(content, circle);
+                comment=StatusService.addComment(content, circle,installationId);
             }
 
             @Override

@@ -60,7 +60,8 @@ public class VersionUtil {
                 //没有下载 开启下载
                 final ProgressDialog progressDialog=new ProgressDialog(context);
                 progressDialog.setTitle("正在下载...");
-                progressDialog.setCanceledOnTouchOutside(true);
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setCancelable(false);
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 progressDialog.show();
                 VersionService.downloadFile(versionInfo.getVersionFile(), new VersionService.UpdateProgress() {
@@ -76,6 +77,14 @@ public class VersionUtil {
                 });
             }
         });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
     }
     /**
      * 得到安装的intent

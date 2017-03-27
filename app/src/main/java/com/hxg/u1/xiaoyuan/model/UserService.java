@@ -104,4 +104,15 @@ public class UserService {
             }
         });
     }
+
+    public static void setInstallationId(String id){
+        AvUser avUser=AvUser.getCurrentUser();
+        avUser.put("installationId",id);
+        avUser.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(AVException e) {
+
+            }
+        });
+    }
 }

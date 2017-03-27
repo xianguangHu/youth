@@ -23,4 +23,8 @@ public class Constant {
     //用户头像上传
     public static final int CROP_SMALL_PICTURE = 2;//头像剪裁后标签
 
+    //校园圈数据type
+    public final static int TYPE_PULLREFRESH = 1;
+    //底部加载
+    public final static int TYPE_UPLOADREFRESH = 2;
 }

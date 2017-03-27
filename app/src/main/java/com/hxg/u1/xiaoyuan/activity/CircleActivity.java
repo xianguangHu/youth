@@ -26,15 +26,19 @@ import com.hxg.u1.xiaoyuan.contract.CircleContract;
 import com.hxg.u1.xiaoyuan.model.CirclePresenter;
 import com.hxg.u1.xiaoyuan.model.StatusService;
 import com.hxg.u1.xiaoyuan.utils.CommentUtil;
+import com.hxg.u1.xiaoyuan.utils.Constant;
 import com.hxg.u1.xiaoyuan.utils.MainUtil;
 import com.hxg.u1.xiaoyuan.widgets.DivItemDecoration;
 import com.hxg.u1.xiaoyuan.widgets.TitleBar;
+import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.hxg.u1.xiaoyuan.utils.Constant.TYPE_PULLREFRESH;
 
 
 public class CircleActivity extends Activity implements CircleContract.View {
@@ -53,11 +57,11 @@ public class CircleActivity extends Activity implements CircleContract.View {
     LinearLayout mEditTextBodyLl;
     private LinearLayoutManager mLayoutManager;
     private CirclePresenter presenter;
-    private final static int TYPE_PULLREFRESH = 1;
     private CircleAdapter mCircleAdapter;
     private SwipeRefreshLayout.OnRefreshListener mRefreshListener;
     private String mCircleId;
     private int mCirclePostition;
+    private String installationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +70,13 @@ public class CircleActivity extends Activity implements CircleContract.View {
         ButterKnife.bind(this);
         presenter = new CirclePresenter(this, this);
         initView();
-//        mRecyclerView.getSwipeToRefresh().post(new Runnable(){
-//            @Override
-//            public void run() {
-//                mRecyclerView.setRefreshing(true);//执行下拉刷新的动画
-//                mRefreshListener.onRefresh();//执行数据加载操作
-//            }
-//        });
+        mRecyclerView.getSwipeToRefresh().post(new Runnable(){
+            @Override
+            public void run() {
+                mRecyclerView.setRefreshing(true);//执行下拉刷新的动画
+                mRefreshListener.onRefresh();//执行数据加载操作
+            }
+        });
     }
 
     @SuppressLint({"ClickableViewAccessibility", "InlinedApi"})
@@ -87,7 +91,7 @@ public class CircleActivity extends Activity implements CircleContract.View {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(mEditTextBodyLl.getVisibility()==View.VISIBLE){
-                    updateEditTextBodyVisible(View.GONE,null,0);
+                    updateEditTextBodyVisible(View.GONE,null,0,null);
                     return true;
                 }
                 return false;
@@ -96,8 +100,7 @@ public class CircleActivity extends Activity implements CircleContract.View {
         mRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                System.out.println("刷新中。。。。。。。");
-                presenter.loadData(TYPE_PULLREFRESH);
+                presenter.loadData(Constant.TYPE_PULLREFRESH,mCircleAdapter);
             }
         };
         mRecyclerView.setRefreshListener(mRefreshListener);
@@ -116,9 +119,9 @@ public class CircleActivity extends Activity implements CircleContract.View {
                         MainUtil.ToastUtil(CircleActivity.this,"评论内容不能为空...");
                         return;
                     }
-                    presenter.addComment(content,mCircleId,mCirclePostition);
+                    presenter.addComment(content,mCircleId,mCirclePostition,installationId);
                 }
-                updateEditTextBodyVisible(View.GONE, null,0);
+                updateEditTextBodyVisible(View.GONE, null,0,null);
             }
         });
     }
@@ -152,16 +155,30 @@ public class CircleActivity extends Activity implements CircleContract.View {
             //设置刷新关闭
             mRecyclerView.setRefreshing(false);
             mCircleAdapter.setDatas(datas);
-            mCircleAdapter.notifyDataSetChanged();
+        }else if (loadType==Constant.TYPE_UPLOADREFRESH){
+            mCircleAdapter.getDatas().addAll(datas);
+        }
+        mCircleAdapter.notifyDataSetChanged();
 
+
+        //到底部加载新的数据
+        if (mCircleAdapter.getDatas().size()<Integer.MAX_VALUE){
+            mRecyclerView.setupMoreListener(new OnMoreListener() {
+                @Override
+                public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
+                    presenter.loadData(Constant.TYPE_UPLOADREFRESH,mCircleAdapter);
+                }
+            },1);
         }
     }
 
     @Override
-    public void updateEditTextBodyVisible(int visibility,String circleId,int circlePostition) {
+    public void updateEditTextBodyVisible(int visibility,String circleId,int circlePostition,String installationId) {
+        this.installationId=installationId;
         this.mCircleId=circleId;
         this.mCirclePostition=circlePostition;
         mEditTextBodyLl.setVisibility(visibility);
+
         if(View.VISIBLE==visibility){
             mCircleEt.requestFocus();
             //弹出键盘
