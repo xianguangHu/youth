@@ -13,6 +13,8 @@ public class DialogUtil {
         dialog.setMessage("努力加载中...");
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setCancelable(true);
+        //点击外面不消失
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         return dialog;
     }

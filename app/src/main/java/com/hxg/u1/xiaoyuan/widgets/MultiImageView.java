@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
@@ -177,11 +176,11 @@ public class MultiImageView extends LinearLayout {
 		PhotoInfo photoInfo = imagesList.get(position);
 		ImageView imageView = new ColorFilterImageView(getContext());
 		if(isMultiImage){
-			imageView.setScaleType(ScaleType.CENTER_CROP);
+			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 			imageView.setLayoutParams(position % MAX_PER_ROW_COUNT == 0 ?moreParaColumnFirst : morePara);
 		}else {
 			imageView.setAdjustViewBounds(true);
-			imageView.setScaleType(ScaleType.CENTER_INSIDE);
+			imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 			//imageView.setMaxHeight(pxOneMaxWandH);
 
             int expectW = photoInfo.w;

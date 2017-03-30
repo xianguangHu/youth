@@ -3,9 +3,11 @@ package com.hxg.u1.xiaoyuan.activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hxg.u1.xiaoyuan.R;
 import com.hxg.u1.xiaoyuan.bean.VersionInfo;
@@ -36,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.tab_ic_my,
     };
     private String[] tabTitle=new String[]{"首页","课程","校园圈","我"};
+
+    //记录用户首次点击返回键的时间
+    private long firstTime=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,5 +85,21 @@ public class MainActivity extends AppCompatActivity {
             mTabHost.addTab(mTabHost.newTabSpec(""+i).setIndicator(inflate),fragment[i],null);
         }
     }
-
+    //双击退出
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        switch (keyCode){
+            case KeyEvent.KEYCODE_BACK:
+                long secondTime=System.currentTimeMillis();
+                if(secondTime-firstTime>2000){
+                    Toast.makeText(MainActivity.this,"再按一次退出程序",Toast.LENGTH_SHORT).show();
+                    firstTime=secondTime;
+                    return true;
+                }else{
+                    System.exit(0);
+                }
+                break;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
 }

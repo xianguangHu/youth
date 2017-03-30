@@ -47,4 +47,30 @@
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/friend_fragment_iv"/>
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/friend_fragment_related"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/friend_fragment_iv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:src="@mipmap/related"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="与我相关"
+            android:textColor="@color/black"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/friend_fragment_iv1"/>
+    </RelativeLayout>
 </LinearLayout>

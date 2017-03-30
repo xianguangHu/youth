@@ -62,6 +62,7 @@ public class CircleActivity extends Activity implements CircleContract.View {
     private String mCircleId;
     private int mCirclePostition;
     private String installationId;
+    private Circle mCircle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +92,7 @@ public class CircleActivity extends Activity implements CircleContract.View {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(mEditTextBodyLl.getVisibility()==View.VISIBLE){
-                    updateEditTextBodyVisible(View.GONE,null,0,null);
+                    updateEditTextBodyVisible(View.GONE,null,0,null,null);
                     return true;
                 }
                 return false;
@@ -119,9 +120,9 @@ public class CircleActivity extends Activity implements CircleContract.View {
                         MainUtil.ToastUtil(CircleActivity.this,"评论内容不能为空...");
                         return;
                     }
-                    presenter.addComment(content,mCircleId,mCirclePostition,installationId);
+                    presenter.addComment(content,mCircleId,mCirclePostition,installationId,mCircle);
                 }
-                updateEditTextBodyVisible(View.GONE, null,0,null);
+                updateEditTextBodyVisible(View.GONE, null,0,null,null);
             }
         });
     }
@@ -151,9 +152,9 @@ public class CircleActivity extends Activity implements CircleContract.View {
 
     @Override
     public void update2loadData(int loadType, List<Circle> datas) {
+        //设置刷新关闭
+        mRecyclerView.setRefreshing(false);
         if (loadType == TYPE_PULLREFRESH) {
-            //设置刷新关闭
-            mRecyclerView.setRefreshing(false);
             mCircleAdapter.setDatas(datas);
         }else if (loadType==Constant.TYPE_UPLOADREFRESH){
             mCircleAdapter.getDatas().addAll(datas);
@@ -173,10 +174,11 @@ public class CircleActivity extends Activity implements CircleContract.View {
     }
 
     @Override
-    public void updateEditTextBodyVisible(int visibility,String circleId,int circlePostition,String installationId) {
+    public void updateEditTextBodyVisible(int visibility,String circleId,int circlePostition,String installationId,Circle circle) {
         this.installationId=installationId;
         this.mCircleId=circleId;
         this.mCirclePostition=circlePostition;
+        this.mCircle=circle;
         mEditTextBodyLl.setVisibility(visibility);
 
         if(View.VISIBLE==visibility){

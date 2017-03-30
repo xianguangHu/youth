@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.hxg.u1.xiaoyuan.R;
 import com.hxg.u1.xiaoyuan.activity.CircleActivity;
+import com.hxg.u1.xiaoyuan.activity.CommentRelatedActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +27,8 @@ public class FriendFragment extends Fragment {
     @BindView(R.id.friend_fragment_dynamic)
     RelativeLayout mFriendFragmentDynamic;
     Unbinder unbinder;
+    @BindView(R.id.friend_fragment_related)
+    RelativeLayout mFriendFragmentRelated;
 
     public FriendFragment() {
     }
@@ -46,8 +49,17 @@ public class FriendFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick(R.id.friend_fragment_dynamic)
+    @OnClick({R.id.friend_fragment_dynamic,R.id.friend_fragment_related})
     public void onViewClicked(View view) {
-        startActivity(new Intent(getActivity(), CircleActivity.class));
+        Intent intent=new Intent();
+        switch (view.getId()){
+            case R.id.friend_fragment_dynamic://动态
+                intent.setClass(getActivity(),CircleActivity.class);
+                break;
+            case R.id.friend_fragment_related:
+                intent.setClass(getActivity(), CommentRelatedActivity.class);
+                break;
+        }
+        startActivity(intent);
     }
 }

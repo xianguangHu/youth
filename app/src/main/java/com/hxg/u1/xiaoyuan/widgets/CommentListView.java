@@ -118,23 +118,10 @@ public class CommentListView extends LinearLayout {
         TextView commentTv = (TextView) convertView.findViewById(R.id.commentTv);
         final CircleMovementMethod circleMovementMethod = new CircleMovementMethod(itemSelectorColor, itemSelectorColor);
 
-//        final CommentItem bean = mDatas.get(position);
         Comment comment=mDatas.get(position);
-//        String name = bean.getUser().getName();
         String name=comment.getCreator().getUsername();
-//        String id = bean.getId();
-        String toReplyName = "";
-//        if (bean.getToReplyUser() != null) {
-//            toReplyName = bean.getToReplyUser().getName();
-//        }
-
         SpannableStringBuilder builder = new SpannableStringBuilder();
         builder.append(setClickableSpan(name, comment.getCreator().getObjectId()));
-//        if (!TextUtils.isEmpty(toReplyName)) {
-//
-//            builder.append(" 回复 ");
-//            builder.append(setClickableSpan(toReplyName, bean.getToReplyUser().getId()));
-//        }
         builder.append(": ");
         //转换表情字符
         String contentBodyStr =comment.getContent();

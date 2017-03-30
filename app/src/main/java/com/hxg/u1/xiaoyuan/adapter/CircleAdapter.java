@@ -1,6 +1,7 @@
 package com.hxg.u1.xiaoyuan.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import com.hxg.u1.xiaoyuan.R;
 import com.hxg.u1.xiaoyuan.activity.ImagePagerActivity;
 import com.hxg.u1.xiaoyuan.adapter.viewholder.CircleViewHolder;
 import com.hxg.u1.xiaoyuan.adapter.viewholder.ImageViewHoder;
+import com.hxg.u1.xiaoyuan.bean.AvUser;
 import com.hxg.u1.xiaoyuan.bean.Circle;
 import com.hxg.u1.xiaoyuan.bean.Comment;
 import com.hxg.u1.xiaoyuan.bean.PhotoInfo;
@@ -35,7 +37,6 @@ public class CircleAdapter extends BaseRecycleViewAdapter{
     private static final int TYPE_HEAD = 0;
     private Context mContext;
     private CirclePresenter presenter;
-    private HeaderViewHolder viewHolder;
 
     public CircleAdapter(Context context) {
         this.mContext=context;
@@ -46,11 +47,11 @@ public class CircleAdapter extends BaseRecycleViewAdapter{
 
     @Override
     public int getItemViewType(int position) {
-        if (position==0){
-            return TYPE_HEAD;
-        }
+//        if (position==0){
+//            return TYPE_HEAD;
+//        }
         int itemType=CircleViewHolder.TYPE_IMAGE;
-        Circle status= (Circle) datas.get(position-1);
+        Circle status= (Circle) datas.get(position);
         if (status.getImages().size()>0){
             itemType= CircleViewHolder.TYPE_IMAGE;
         }
@@ -60,32 +61,30 @@ public class CircleAdapter extends BaseRecycleViewAdapter{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder=null;
-        if (viewType==TYPE_HEAD){
-            View headView= LayoutInflater.from(parent.getContext()).inflate(R.layout.head_circle,parent,false);
-            viewHolder = new HeaderViewHolder(headView);
-        }else {
+//        if (viewType==TYPE_HEAD){
+//            View headView= LayoutInflater.from(parent.getContext()).inflate(R.layout.head_circle,parent,false);
+//            viewHolder = new HeaderViewHolder(headView);
+//        }else {
             View view=LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_circle_item,parent,false);
             if (viewType== CircleViewHolder.TYPE_IMAGE){
                     viewHolder=new ImageViewHoder(view);
             }
-        }
+//        }
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewholder, int position) {
-        if (getItemViewType(position)==TYPE_HEAD){
-
-        }else {
-            final int circlePostition=position-1;
+            final int circlePostition=position;
             final CircleViewHolder holder= (CircleViewHolder) viewholder;
-            final Circle status= (Circle) datas.get(position-1);
-            final AVUser user=status.getCircles().getUserId();
+            final Circle status= (Circle) datas.get(position);
+            final AvUser user= (AvUser) status.getCircles().getUserId();
             String statusTime=new SimpleDateFormat("yyyy-MM-dd HH时mm分").format(status.getCircles().getCreatedAt());
             final String content=status.getCircles().getMessage();
             if (!TextUtils.isEmpty(user.getUsername())){
                 holder.mNameTv.setText(user.getUsername());
             }
+            holder.mHeadIv.setImageURI(Uri.parse(user.getImageUri()));
             holder.mTimeTv.setText(statusTime);
             if (!TextUtils.isEmpty(content)){
                 holder.mContentTv.setText(UrlUtils.formatUrlString(content));
@@ -148,7 +147,7 @@ public class CircleAdapter extends BaseRecycleViewAdapter{
                 @Override
                 public void onClick(View v) {
                     String installationId=user.getString("installationId");
-                    presenter.showEditTextBody(status.getCircles().getObjectId(),circlePostition,installationId);
+                    presenter.showEditTextBody(status.getCircles().getObjectId(),circlePostition,installationId,status);
                 }
             });
 
@@ -188,17 +187,17 @@ public class CircleAdapter extends BaseRecycleViewAdapter{
                 }
             });
             }
-        }
+
     }
 
     @Override
     public int getItemCount() {
-        return datas.size()+1;
+        return datas.size();
     }
-    public class HeaderViewHolder extends RecyclerView.ViewHolder{
-
-        public HeaderViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
+//    public class HeaderViewHolder extends RecyclerView.ViewHolder{
+//
+//        public HeaderViewHolder(View itemView) {
+//            super(itemView);
+//        }
+//    }
 }

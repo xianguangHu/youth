@@ -9,7 +9,7 @@ import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.PushService;
 import com.avos.avoscloud.SaveCallback;
 import com.avos.avoscloud.SendCallback;
-import com.hxg.u1.xiaoyuan.activity.CircleActivity;
+import com.hxg.u1.xiaoyuan.activity.CommentRelatedActivity;
 import com.hxg.u1.xiaoyuan.activity.MainActivity;
 import com.hxg.u1.xiaoyuan.bean.AvUser;
 
@@ -22,7 +22,7 @@ public class MyPushService {
     //推送初始化
     public static void initPush(Context context) {
         com.avos.avoscloud.PushService.setDefaultPushCallback(context, MainActivity.class);
-        PushService.subscribe(context, "CricleMessage", CircleActivity.class);
+        PushService.subscribe(context, "CricleMessage", CommentRelatedActivity.class);
         AVInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
             @Override
             public void done(AVException e) {

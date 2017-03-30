@@ -20,7 +20,6 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- SD卡读取权限，用户写入离线定位数据 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-
     //广告的权限 InMobi
 
     <!-- &lt;!&ndash;Recommended permissions to receive brand‐centric ads with interactive functionality for better eCPMs&ndash;&gt; -->
@@ -112,16 +111,19 @@
         </activity>
         <activity android:name=".activity.CarSchoolDetailActivity">
         </activity>
-        <!--推送 start-->
-        <service android:name="com.avos.avoscloud.PushService" />
+        <!-- 推送 start -->
+        <service android:name="com.avos.avoscloud.PushService"/>
+
         <receiver android:name="com.avos.avoscloud.AVBroadcastReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
-        <!--推送 end-->
+        <!-- 推送 end -->
+        <activity android:name=".activity.CommentRelatedActivity">
+        </activity>
     </application>
 
 </manifest>

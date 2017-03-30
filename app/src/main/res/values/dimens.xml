@@ -11,4 +11,7 @@
     <dimen name="medium_text_size">14sp</dimen><!-- 中等字体大小 -->
     <dimen name="small_text_size">12sp</dimen><!-- 小号字体大小 -->
 
+    //课表节数
+    <dimen name="left_width">25dp</dimen>
+    <dimen name="left_height">55dp</dimen>
 </resources>

@@ -204,10 +204,12 @@ public class StatusService {
     }
 
     //保存评论
-    public static Comment addComment(String value, final String circleId, final String installationId) {
+    public static Comment addComment(String value, final String circleId, final String installationId,Circle circle) {
         final Comment comment = new Comment();
         comment.setContent(value);
         comment.setCreator(AVUser.getCurrentUser());
+        comment.setToUserId(circle.getCircles().getUserId().getObjectId());
+        comment.setCircle(circle.getCircles());
         comment.saveInBackground(new SaveCallback() {
             @Override
             public void done(AVException e) {
@@ -224,6 +226,7 @@ public class StatusService {
                                 if (!installationId.equals(AvUser.getCurrentUser().getInstallationId())){
                                 MyPushService.pushUserComment(installationId,AvUser.getCurrentUser().getUsername());
                                 }
+
                             }
                         }
                     });

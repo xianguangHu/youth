@@ -49,9 +49,9 @@ public class CirclePresenter implements CircleContract.Presenter {
         }.execute();
     }
 
-    public void showEditTextBody(String circleId,int circlePostition,String installationId) {
+    public void showEditTextBody(String circleId,int circlePostition,String installationId,Circle circle) {
         if (view != null) {
-            view.updateEditTextBodyVisible(View.VISIBLE, circleId,circlePostition,installationId);
+            view.updateEditTextBodyVisible(View.VISIBLE, circleId,circlePostition,installationId,circle);
         }
     }
 
@@ -60,12 +60,12 @@ public class CirclePresenter implements CircleContract.Presenter {
      * @param content
      * @param circle circleId
      */
-    public void addComment(final String content, final String circle, final int circlePostition, final String installationId) {
+    public void addComment(final String content, final String circle, final int circlePostition, final String installationId,final Circle circle1) {
         new StatusNetAsyncTask(mContext) {
             Comment comment;
             @Override
             protected void doInBack() throws Exception {
-                comment=StatusService.addComment(content, circle,installationId);
+                comment=StatusService.addComment(content, circle,installationId,circle1);
             }
 
             @Override

@@ -1,6 +1,7 @@
 package com.hxg.u1.xiaoyuan.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,9 +20,11 @@ import com.hxg.u1.xiaoyuan.bean.Schools;
 import com.hxg.u1.xiaoyuan.model.Model;
 import com.hxg.u1.xiaoyuan.model.UserService;
 import com.hxg.u1.xiaoyuan.utils.Constant;
+import com.hxg.u1.xiaoyuan.utils.DialogUtil;
 import com.hxg.u1.xiaoyuan.utils.MainUtil;
 import com.hxg.u1.xiaoyuan.utils.SharedPrefsUtil;
 import com.hxg.u1.xiaoyuan.utils.StatusNetAsyncTask;
+import com.hxg.u1.xiaoyuan.utils.StringUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,8 +66,10 @@ public class LoginActivity extends Activity {
                 finish();
                 break;
             case R.id.login_btn:
+                ProgressDialog dialog= DialogUtil.showSpinnerDialog(LoginActivity.this);
                 mPhone = mLoginPhone.getText().toString().trim();
                 mPassword = mLoginPassword.getText().toString().trim();
+                if (StringUtil.isLogin(mPhone,mPassword)){
                 Model.getInstance().getGlobalThreadpool().execute(new Runnable() {
                     @Override
                     public void run() {
@@ -90,12 +95,16 @@ public class LoginActivity extends Activity {
                                     startActivity(new Intent(LoginActivity.this,MainActivity.class));
                                 }else {
                                     Log.v("code错误吗",e+"");
-                                    MainUtil.ToastUtil(MyApplication.getContext(),"登陆失败");
+                                    MainUtil.ToastUtil(MyApplication.getContext(),"手机号或密码不正确!");
                                 }
                             }
                         });
                     }
                 });
+                }
+
+                dialog.dismiss();
+
                 break;
             case R.id.login_seek:
                 break;

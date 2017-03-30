@@ -15,7 +15,7 @@ import java.util.List;
 public interface CircleContract {
     interface View extends BaseView{
         void update2loadData(int loadType, List<Circle> datas);
-        void updateEditTextBodyVisible(int visibility,String circleId,int circlePostition,String installationId);
+        void updateEditTextBodyVisible(int visibility,String circleId,int circlePostition,String installationId,Circle circle);
         void update2AddComment(int circlePosition, Comment comment);
         void updata2AddLike(int circlePosition);
     }

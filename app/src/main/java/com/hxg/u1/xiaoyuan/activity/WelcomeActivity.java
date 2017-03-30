@@ -41,6 +41,7 @@ public class WelcomeActivity extends Activity implements LocationUtil.LocationMa
         locationUtil.start();
         if (AVUser.getCurrentUser()!=null){
             startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
+            finish();
         }
     }
 

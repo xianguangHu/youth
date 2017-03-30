@@ -6,6 +6,7 @@ import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.hxg.u1.xiaoyuan.R;
 import com.hxg.u1.xiaoyuan.widgets.CommentListView;
 import com.hxg.u1.xiaoyuan.widgets.ExpandTextView;
@@ -20,7 +21,7 @@ public abstract class CircleViewHolder extends RecyclerView.ViewHolder {
     public final static int TYPE_IMAGE = 2;
     public final static int TYPE_VIDEO = 3;
     public int viewType;
-    public ImageView mHeadIv;
+    public SimpleDraweeView mHeadIv;
     public TextView mNameTv;
     public ExpandTextView mContentTv;
     public TextView mUrlTipTv;
@@ -38,7 +39,7 @@ public abstract class CircleViewHolder extends RecyclerView.ViewHolder {
         this.viewType=viewType;
         ViewStub viewStub= (ViewStub) itemView.findViewById(R.id.viewStub);
         initSubView(viewType,viewStub);
-        mHeadIv = (ImageView) itemView.findViewById(R.id.headIv);
+        mHeadIv = (SimpleDraweeView) itemView.findViewById(R.id.headIv);
         mNameTv = (TextView) itemView.findViewById(R.id.nameTv);
 
         mContentTv = (ExpandTextView) itemView.findViewById(R.id.contentTv);

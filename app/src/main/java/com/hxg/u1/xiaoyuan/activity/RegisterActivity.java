@@ -1,6 +1,7 @@
 package com.hxg.u1.xiaoyuan.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +17,10 @@ import com.hxg.u1.xiaoyuan.R;
 import com.hxg.u1.xiaoyuan.bean.Schools;
 import com.hxg.u1.xiaoyuan.model.Model;
 import com.hxg.u1.xiaoyuan.model.StatusService;
+import com.hxg.u1.xiaoyuan.utils.DialogUtil;
+import com.hxg.u1.xiaoyuan.utils.MainUtil;
 import com.hxg.u1.xiaoyuan.utils.StatusNetAsyncTask;
+import com.hxg.u1.xiaoyuan.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,30 +105,43 @@ public class RegisterActivity extends Activity implements AdapterView.OnItemSele
                 finish();
                 break;
             case R.id.register_next:
+                ProgressDialog dialog= DialogUtil.showSpinnerDialog(RegisterActivity.this);
                 mPhone = mRegisterPhone.getText().toString().trim();
                 mPassword = mRegisterPassword.getText().toString().trim();
-                Model.getInstance().getGlobalThreadpool().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        BmobSMS.requestSMSCode(getApplicationContext(), mPhone, "胡贤广", new RequestSMSCodeListener() {
+                if (StringUtil.isRegister(mPhone,mPassword)){
+                    StringUtil.isPhone(mPhone, new StringUtil.RegisterCallBack() {
+                        @Override
+                        public void callBack() {
+                            //发送短信
+                            Model.getInstance().getGlobalThreadpool().execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    BmobSMS.requestSMSCode(getApplicationContext(), mPhone, "胡贤广", new RequestSMSCodeListener() {
 
-                            @Override
-                            public void done(Integer smsId, BmobException ex) {
-                                // TODO Auto-generated method stub
-                                if (ex == null) {//验证码发送成功
-                                    Log.i("bmob", "短信id：" + smsId);//用于查询本次短信发送详情
+                                        @Override
+                                        public void done(Integer smsId, BmobException ex) {
+                                            // TODO Auto-generated method stub
+                                            if (ex == null) {//验证码发送成功
+                                                Log.i("bmob", "短信id：" + smsId);//用于查询本次短信发送详情
+                                            }else {
+                                                MainUtil.ToastUtil(getApplicationContext(),"错误:"+ex);
+                                            }
+                                        }
+                                    });
+                                    Intent intent = new Intent(RegisterActivity.this, CheckActivity.class);
+                                    intent.putExtra("phone", mPhone);
+                                    intent.putExtra("password", mPassword);
+                                    Bundle bundle=new Bundle();
+                                    bundle.putSerializable("schools",mMySchool);
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
                                 }
-                            }
-                        });
-                        Intent intent = new Intent(RegisterActivity.this, CheckActivity.class);
-                        intent.putExtra("phone", mPhone);
-                        intent.putExtra("password", mPassword);
-                        Bundle bundle=new Bundle();
-                        bundle.putSerializable("schools",mMySchool);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                    }
-                });
+                            });
+                        }
+                    });
+
+                }
+                dialog.dismiss();
                 break;
         }
     }
